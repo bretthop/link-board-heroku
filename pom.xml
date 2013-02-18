@@ -26,6 +26,23 @@
             <artifactId>tomcat-embed-jasper</artifactId>
             <version>${tomcat.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.8</version>
+        </dependency>
+
+        <!-- Attempt at getting CDI to work -->
+        <!--<dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld.servlet</groupId>
+            <artifactId>weld-servlet</artifactId>
+            <version>1.1.10.Final</version>
+        </dependency>-->
     </dependencies>
 
     <!-- Creates a launch script that can be ran from /target/bin/webapp[.bat] -->
@@ -54,6 +71,15 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Attempt at getting CDI to work -->
+            <!--<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <containerConfigXML>src/main/resources/META-INF/context.xml</containerConfigXML>
+                </configuration>
+            </plugin>-->
         </plugins>
     </build>
 </project>
