@@ -30,7 +30,7 @@ public class LinkServlet extends HttpServlet
         List<LinkEntity> links = linkService.getAll();
 
         // TODO: Replace with JSON (de)serialiser
-        String linkJSON = "{\"id\":%s,\"title\":\"%s\",\"href\":\"%s\",\"description\":\"\"}";
+        String linkJSON = "{\"id\":%s,\"title\":\"%s\",\"href\":\"%s\",\"description\":\"%s\"}";
         out.write("[".getBytes());
         for (int i = 0; i < links.size(); i++) {
             LinkEntity link = links.get(i);
