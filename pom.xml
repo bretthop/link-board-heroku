@@ -31,6 +31,11 @@
             <artifactId>jackson-mapper-asl</artifactId>
             <version>1.9.8</version>
         </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.0-801.jdbc4</version>
+        </dependency>
 
         <!-- Attempt at getting CDI to work -->
         <!--<dependency>

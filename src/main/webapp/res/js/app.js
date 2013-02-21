@@ -24,8 +24,8 @@ requirejs.config({
 
 // Start the main app logic.
 //
-// Adding 'bootstrap/js/bootstrap' to the deps adds bootstraps functionality to our context
-// so we can use methods like $().modal() fine here
+// Adding 'bootstrap/js/bootstrap' to the required modules list adds bootstrap's functionality to our context
+// (this means we can use method like $().modal() here)
 requirejs(['app/api-functions', 'bootstrap/js/bootstrap'],
     function (api) {
         $('#loginModal').modal();

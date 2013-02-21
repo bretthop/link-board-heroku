@@ -3,17 +3,17 @@ package linkboard.data.entity;
 //@Entity
 public class LinkEntity
 {
-    private int id;
+    private Long id;
     private String title;
     private String href;
     private String description;
 
-    public int getId()
+    public Long getId()
     {
         return id;
     }
 
-    public void setId(int id)
+    public void setId(Long id)
     {
         this.id = id;
     }
