@@ -7,19 +7,27 @@ requirejs.config({
     //never includes a ".js" extension since
     //the paths config could be for a directory.
     paths: {
-        app: '../app'
+        app: '../app',
+        bootstrap: '../../bootstrap'
     },
     // Shim is used to load javascript libs that
     // don't provide a define() method
     shim: {
         'underscore': {
             exports: '_'
+        },
+        'bootstrap/js/bootstrap': {
+            deps: ['jquery']
         }
     }
 });
 
 // Start the main app logic.
-requirejs(['app/api-functions'],
+//
+// Adding 'bootstrap/js/bootstrap' to the deps adds bootstraps functionality to our context
+// so we can use methods like $().modal() fine here
+requirejs(['app/api-functions', 'bootstrap/js/bootstrap'],
     function (api) {
+        $('#loginModal').modal();
         api.loadLinks();
     });
