@@ -25,13 +25,36 @@ public class LinkServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
 	{
-        ServletOutputStream out = resp.getOutputStream();
-
         List<LinkEntity> links = linkService.getAll();
 
         resp.setHeader("Content-Type", "application/json");
 
+        ServletOutputStream out = resp.getOutputStream();
         out.write(JsonUtil.serialise(links).getBytes());
+        out.flush();
+        out.close();
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    {
+        // TODO: Use Jackson to de-serialise the request body into LinkEntity
+        String title       = req.getParameter("title");
+        String href        = req.getParameter("href");
+        String description = req.getParameter("description");
+
+        LinkEntity link = new LinkEntity();
+
+        link.setTitle(title);
+        link.setHref(href);
+        link.setDescription(description);
+
+        link = linkService.saveLink(link);
+
+        resp.setHeader("Content-Type", "application/json");
+
+        ServletOutputStream out = resp.getOutputStream();
+        out.write(JsonUtil.serialise(link).getBytes());
         out.flush();
         out.close();
     }

@@ -14,4 +14,9 @@ public class LinkService
     {
         return linkDao.findAll();
     }
+
+    public LinkEntity saveLink(LinkEntity link)
+    {
+        return linkDao.save(link);
+    }
 }

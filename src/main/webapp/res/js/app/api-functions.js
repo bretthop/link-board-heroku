@@ -15,5 +15,21 @@ define(['jquery', 'underscore', 'app/tmpl'], function($, _, tmpl) {
         });
     };
 
+    api.addLink = function(link, successCallback)
+    {
+        // TODO: Change content-type to JSON (once server can handle it)
+        //$.ajax({type: 'POST', url: '/linkServlet', contentType: 'application/json', data: JSON.stringify(link)})
+        $.ajax({type: 'POST', url: '/linkServlet', data: link})
+            .success(function() {
+                $('#links').html('');
+
+                api.loadLinks();
+
+                if (successCallback) {
+                    successCallback();
+                }
+            });
+    };
+
     return api;
 });

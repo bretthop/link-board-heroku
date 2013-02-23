@@ -39,4 +39,23 @@ public class LinkDao
             throw new RuntimeException(e);
         }
     }
+
+    public LinkEntity save(LinkEntity entity)
+    {
+        try {
+            Connection conn = ConnectionManager.getConnection();
+
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(String.format("INSERT INTO link (title, href, description) VALUES ('%s', '%s', '%s')",
+                               entity.getTitle(),
+                               entity.getHref(),
+                               entity.getDescription()));
+
+            return entity;
+        }
+        catch (Exception e) {
+            // TODO: Add logging
+            throw new RuntimeException(e);
+        }
+    }
 }

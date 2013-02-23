@@ -19,15 +19,22 @@ requirejs.config({
         'bootstrap/js/bootstrap': {
             deps: ['jquery']
         }
-    }
+    },
+    // Stops RequireJS from caching JS files (very annoying during dev),
+    // by adding a new url arg to each javascript file based on time (so it
+    // wont be able to recognise that it's cached this file).
+    // SHOULD BE REMOVED IN PRODUCTION ENVIRONMENTS
+    // See: http://stackoverflow.com/questions/8315088/prevent-requirejs-from-caching-required-scripts
+    urlArgs: "bust=" + (new Date()).getTime()
 });
 
 // Start the main app logic.
 //
 // Adding 'bootstrap/js/bootstrap' to the required modules list adds bootstrap's functionality to our context
 // (this means we can use method like $().modal() here)
-requirejs(['app/api-functions', 'bootstrap/js/bootstrap'],
-    function (api) {
-        $('#loginModal').modal();
+// (This is only left here as a reference)
+requirejs(['app/api-functions', 'app/frontend', 'bootstrap/js/bootstrap'],
+    function (api, frontend) {
+        frontend.registerHandlers();
         api.loadLinks();
     });
