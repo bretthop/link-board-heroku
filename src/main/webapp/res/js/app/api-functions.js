@@ -31,5 +31,19 @@ define(['jquery', 'underscore', 'app/tmpl'], function($, _, tmpl) {
             });
     };
 
+    api.addLinkGroup = function(linkGroup, successCallback)
+    {
+        // TODO: Change content-type to JSON (once server can handle it)
+        //$.ajax({type: 'POST', url: '/linkServlet', contentType: 'application/json', data: JSON.stringify(link)})
+        $.ajax({type: 'POST', url: '/linkGroupServlet', data: linkGroup})
+            .success(function() {
+                console.log('Added!');
+
+                if (successCallback) {
+                    successCallback();
+                }
+            });
+    };
+
     return api;
 });

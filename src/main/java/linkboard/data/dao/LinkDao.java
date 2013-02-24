@@ -46,7 +46,8 @@ public class LinkDao
             Connection conn = ConnectionManager.getConnection();
 
             Statement stmt = conn.createStatement();
-            stmt.executeUpdate(String.format("INSERT INTO link (title, href, description) VALUES ('%s', '%s', '%s')",
+            stmt.executeUpdate(String.format("INSERT INTO link (link_group_id, title, href, description) VALUES (%d, '%s', '%s', '%s')",
+                               entity.getGroup().getId(),
                                entity.getTitle(),
                                entity.getHref(),
                                entity.getDescription()));

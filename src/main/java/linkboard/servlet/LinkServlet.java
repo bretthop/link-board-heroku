@@ -1,6 +1,7 @@
 package linkboard.servlet;
 
 import linkboard.data.entity.LinkEntity;
+import linkboard.data.entity.LinkGroupEntity;
 import linkboard.service.LinkService;
 import linkboard.util.JsonUtil;
 
@@ -39,11 +40,16 @@ public class LinkServlet extends HttpServlet
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
         // TODO: Use Jackson to de-serialise the request body into LinkEntity
+        Long groupId       = Long.parseLong(req.getParameter("groupId"));
         String title       = req.getParameter("title");
         String href        = req.getParameter("href");
         String description = req.getParameter("description");
 
         LinkEntity link = new LinkEntity();
+
+        LinkGroupEntity group = new LinkGroupEntity();
+        group.setId(groupId);
+        link.setGroup(group);
 
         link.setTitle(title);
         link.setHref(href);

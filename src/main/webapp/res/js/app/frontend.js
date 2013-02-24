@@ -10,6 +10,14 @@ define(['jquery', 'app/tmpl', 'app/api-functions', 'bootstrap/js/bootstrap'], fu
         $('#addLinkBtn').live('click', function() {
             frontend.handleAddLinkClick();
         });
+
+        $('#showAddLinkGroupBtn').live('click', function() {
+            frontend.showAddLinkGroupModal();
+        });
+
+        $('#addLinkGroupBtn').live('click', function() {
+            frontend.handleAddLinkGroupClick();
+        });
     };
 
     frontend.handleAddLinkClick = function()
@@ -19,6 +27,7 @@ define(['jquery', 'app/tmpl', 'app/api-functions', 'bootstrap/js/bootstrap'], fu
 
         if (formValid) {
             var newLink = {
+                groupId: $('#addLinkForm #groupId').val(),
                 title: $('#addLinkForm #title').val(),
                 href: $('#addLinkForm #href').val(),
                 description: $('#addLinkForm #description').val()
@@ -28,9 +37,30 @@ define(['jquery', 'app/tmpl', 'app/api-functions', 'bootstrap/js/bootstrap'], fu
         }
     };
 
+    frontend.handleAddLinkGroupClick = function()
+    {
+        // TODO: Add validation
+        var formValid = true;
+
+        if (formValid) {
+            var newLinkGroup = {
+                title: $('#addLinkGroupForm #title').val(),
+                description: $('#addLinkGroupForm #description').val()
+            };
+
+            api.addLinkGroup(newLinkGroup, frontend.hideAddLinkGroupModal);
+        }
+    };
+
     frontend.hideAddLinkModal = function()
     {
         $('#addLinkModal').modal('hide');
+    };
+
+
+    frontend.hideAddLinkGroupModal = function()
+    {
+        $('#addLinkGroupModal').modal('hide');
     };
 
     frontend.showAddLinkModal = function()
@@ -44,6 +74,20 @@ define(['jquery', 'app/tmpl', 'app/api-functions', 'bootstrap/js/bootstrap'], fu
             $('#addLinkTmplHolder').html(t);
 
             $('#addLinkModal').modal();
+        });
+    };
+
+    frontend.showAddLinkGroupModal = function()
+    {
+        tmpl.fetch(tmpl.ADD_LINK_GROUP_TMPL_URL, function(t) {
+            if ($('#addLinkGroupTmplHolder').length == 0) {
+                $('body').append($('<div id="addLinkGroupTmplHolder"></div>'));
+            }
+
+            // Set the login template into the dom
+            $('#addLinkGroupTmplHolder').html(t);
+
+            $('#addLinkGroupModal').modal();
         });
     };
 

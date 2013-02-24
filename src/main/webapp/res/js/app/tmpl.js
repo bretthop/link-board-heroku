@@ -3,6 +3,7 @@ define(['jquery'], function($) {
 
     tmpl.LINK_TMPL_URL = '/templates/linkTmpl.html';
     tmpl.ADD_LINK_TMPL_URL = '/templates/addLinkTmpl.html';
+    tmpl.ADD_LINK_GROUP_TMPL_URL = '/templates/addLinkGroupTmpl.html';
 
     tmpl.cache = {};
 
