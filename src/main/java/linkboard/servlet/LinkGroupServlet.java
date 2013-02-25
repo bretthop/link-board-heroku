@@ -3,6 +3,7 @@ package linkboard.servlet;
 import linkboard.data.entity.LinkGroupEntity;
 import linkboard.service.LinkGroupService;
 import linkboard.util.JsonUtil;
+import linkboard.validator.LinkValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -20,6 +21,7 @@ public class LinkGroupServlet extends HttpServlet
 {
     //TODO: Use CDI
     private static final LinkGroupService linkGroupService = new LinkGroupService();
+    private static final LinkValidator linkValidator = new LinkValidator();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
@@ -32,6 +34,8 @@ public class LinkGroupServlet extends HttpServlet
 
         linkGroup.setTitle(title);
         linkGroup.setDescription(description);
+
+        linkValidator.validateLinkGroup(linkGroup);
 
         linkGroup = linkGroupService.saveLinkGroup(linkGroup);
 

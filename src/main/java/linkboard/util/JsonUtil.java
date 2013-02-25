@@ -19,4 +19,20 @@ public class JsonUtil
 
         return result;
     }
+
+    public static <T> T deserialise(String j, Class<T> clazz)
+    {
+        T result = null;
+
+        try {
+            result = new ObjectMapper().readValue(j, clazz);
+        }
+        catch (Exception e) {
+            // TODO: Add logging
+            System.out.println(String.format("Error deserialising object. JSON given: %s. Stack trace follows.", j));
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 }
