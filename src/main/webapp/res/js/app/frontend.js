@@ -3,6 +3,10 @@ define(['jquery', 'app/tmpl', 'app/api-functions', 'bootstrap/js/bootstrap'], fu
 
     frontend.registerHandlers = function()
     {
+        $('#loginBtn').live('click', function() {
+            frontend.handleLoginClick();
+        });
+
         $('#showAddLinkBtn').live('click', function() {
             frontend.showAddLinkModal();
         });
@@ -18,6 +22,19 @@ define(['jquery', 'app/tmpl', 'app/api-functions', 'bootstrap/js/bootstrap'], fu
         $('#addLinkGroupBtn').live('click', function() {
             frontend.handleAddLinkGroupClick();
         });
+    };
+
+    frontend.handleLoginClick = function()
+    {
+        // TODO: Add validation
+        var formValid = true;
+
+        if (formValid) {
+            var username = $('#username').val();
+            var password = $('#password').val();
+
+            api.login(username, password, frontend.handleSuccessfulLogin)
+        }
     };
 
     frontend.handleAddLinkClick = function()
@@ -52,6 +69,13 @@ define(['jquery', 'app/tmpl', 'app/api-functions', 'bootstrap/js/bootstrap'], fu
         }
     };
 
+    frontend.handleSuccessfulLogin = function()
+    {
+        api.loadLinkGroups();
+
+        $('#loginModal').modal('hide');
+    };
+
     frontend.handleSuccessfulAddLink = function()
     {
         $('#linkGroups').html('');
@@ -67,6 +91,21 @@ define(['jquery', 'app/tmpl', 'app/api-functions', 'bootstrap/js/bootstrap'], fu
         api.loadLinkGroups();
 
         $('#addLinkGroupModal').modal('hide');
+    };
+
+    frontend.showLoginModal = function()
+    {
+        tmpl.fetch(tmpl.LOGIN_MODAL_TMPL_URL, function(tmpl)
+        {
+            if ($('#loginModalHolder').length == 0) {
+                $('body').append($('<div id="loginModalHolder"></div>'));
+            }
+
+            // Set the login template into the dom
+            $('#loginModalHolder').html(tmpl);
+
+            $('#loginModal').modal();
+        });
     };
 
     frontend.showAddLinkModal = function()

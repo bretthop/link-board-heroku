@@ -36,5 +36,11 @@ requirejs.config({
 requirejs(['app/api-functions', 'app/frontend', 'bootstrap/js/bootstrap'],
     function (api, frontend) {
         frontend.registerHandlers();
-        api.loadLinkGroups();
+
+        if (!sessionStorage.getItem('username') || !sessionStorage.getItem('password')) {
+            frontend.showLoginModal();
+        }
+        else {
+            api.loadLinkGroups();
+        }
     });

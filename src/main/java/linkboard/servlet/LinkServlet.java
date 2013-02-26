@@ -29,6 +29,7 @@ public class LinkServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
 	{
+        // TODO: Validate that the user has access to this group
         Long groupId = NumberUtil.tryParseLong(req.getParameter("groupId"));
 
         List<LinkEntity> links;

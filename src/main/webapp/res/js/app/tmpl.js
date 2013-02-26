@@ -5,6 +5,7 @@ define(['jquery'], function($) {
     tmpl.LINK_GROUP_TMPL_URL = '/templates/linkGroupTmpl.html';
     tmpl.ADD_LINK_TMPL_URL = '/templates/addLinkTmpl.html';
     tmpl.ADD_LINK_GROUP_TMPL_URL = '/templates/addLinkGroupTmpl.html';
+    tmpl.LOGIN_MODAL_TMPL_URL = '/templates/loginTmpl.html';
 
     tmpl.cache = {};
 

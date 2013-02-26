@@ -1,7 +1,9 @@
 package linkboard.servlet;
 
 import linkboard.data.entity.LinkGroupEntity;
+import linkboard.data.entity.UserAccountEntity;
 import linkboard.service.LinkGroupService;
+import linkboard.service.UserAccountService;
 import linkboard.util.JsonUtil;
 import linkboard.validator.LinkValidator;
 
@@ -21,13 +23,22 @@ import java.util.List;
 public class LinkGroupServlet extends HttpServlet
 {
     //TODO: Use CDI
+    private static final UserAccountService userAccountService = new UserAccountService();
     private static final LinkGroupService linkGroupService = new LinkGroupService();
     private static final LinkValidator linkValidator = new LinkValidator();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        List<LinkGroupEntity> linkGroups = linkGroupService.getAll();
+        String authToken = req.getHeader("Authorization");
+
+        // TODO: Add base64 decoding
+        String username = authToken.split("Basic ")[1].split(":")[0];
+        String password = authToken.split("Basic ")[1].split(":")[1];
+
+        UserAccountEntity user = userAccountService.getByUsernameAndPassword(username, password);
+
+        List<LinkGroupEntity> linkGroups = linkGroupService.getAllForUser(user);
 
         resp.setHeader("Content-Type", "application/json");
 

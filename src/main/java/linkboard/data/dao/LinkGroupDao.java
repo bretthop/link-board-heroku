@@ -2,6 +2,7 @@ package linkboard.data.dao;
 
 import linkboard.data.connection.ConnectionManager;
 import linkboard.data.entity.LinkGroupEntity;
+import linkboard.data.entity.UserAccountEntity;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,13 +13,15 @@ import java.util.List;
 
 public class LinkGroupDao
 {
-    public List<LinkGroupEntity> findAll()
+    public List<LinkGroupEntity> findAllForUser(UserAccountEntity user)
     {
         try {
             Connection conn = ConnectionManager.getConnection();
 
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM link_group");
+            ResultSet rs = stmt.executeQuery(String.format(
+                    "SELECT * FROM link_group WHERE user_account_id = %d",
+                    user.getId()));
 
             return this.mapResultsToLinkGroupsList(rs);
         }

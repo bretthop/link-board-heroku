@@ -1,5 +1,15 @@
+CREATE TABLE user_account (
+  id serial PRIMARY KEY,
+  username text NOT NULL,
+  password text NOT NULL,
+  email text,
+  first_name text,
+  last_name text,
+);
+
 CREATE TABLE link_group (
   id serial PRIMARY KEY,
+  user_account_id INT NOT NULL REFERENCES user_account,
   title text NOT NULL,
   description text
 );
