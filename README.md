@@ -10,15 +10,15 @@ implemented in several different languages and frameworks, and can be primarily 
 
 ### Backend
 
-* Implement login on plain-Java backend
-* Use Apache CXF for REST stuff on plain-Java backend
+* Implement login in the plain-Java backend
+* Use Apache CXF for REST stuff in the plain-Java backend
 * Implement a Spring MVC backend
 * Implement a Rails backend
 * Implement a Node backend
 
-### Frontend
+### Functionality
 
 * Add ability to delete Links
 * Add ability to collapse Groups
 * Add ability to upload an icon for each Link
-* Add ability to upload an icon for eac Group
+* Add ability to upload an icon for each Group
