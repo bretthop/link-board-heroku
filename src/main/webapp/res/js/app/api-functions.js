@@ -22,16 +22,18 @@ define(['jquery', 'underscore', 'app/tmpl'], function($, _, tmpl) {
         tmpl.fetch(tmpl.LINK_TMPL_URL, function(t) {
             $.ajax({url: '/linkServlet', data: {groupId: groupId}})
                 .success(function(links) {
+                    var rendered = '';
+
                     if (links.length > 0) {
                         _.each(links, function(link) {
-                            var rendered = _.template(t, {link: link});
-
-                            $('#linksForGroup_' + groupId).append(rendered);
+                            rendered += _.template(t, {link: link});
                         });
                     }
                     else {
-                        $('#linksForGroup_' + groupId).append("<p>There are no links in this group!</p>");
+                        rendered = '<p>There are no links in this group!</p>';
                     }
+
+                    $('#linksForGroup_' + groupId).html(rendered);
                 })
         });
     };
