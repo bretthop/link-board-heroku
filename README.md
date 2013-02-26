@@ -10,11 +10,11 @@ implemented in several different languages and frameworks, and can be primarily 
 
 ### Backend
 
-*Implement login on plain-Java backend
-*Use Apache CXF for REST stuff on plain-Java backend
-*Implement a Spring MVC backend
-*Implement a Rails backend
-*Implement a Node backend
+* Implement login on plain-Java backend
+* Use Apache CXF for REST stuff on plain-Java backend
+* Implement a Spring MVC backend
+* Implement a Rails backend
+* Implement a Node backend
 
 ### Frontend
 
