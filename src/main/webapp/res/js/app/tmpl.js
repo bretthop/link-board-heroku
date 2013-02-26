@@ -2,6 +2,7 @@ define(['jquery'], function($) {
     var tmpl = {};
 
     tmpl.LINK_TMPL_URL = '/templates/linkTmpl.html';
+    tmpl.LINK_GROUP_TMPL_URL = '/templates/linkGroupTmpl.html';
     tmpl.ADD_LINK_TMPL_URL = '/templates/addLinkTmpl.html';
     tmpl.ADD_LINK_GROUP_TMPL_URL = '/templates/addLinkGroupTmpl.html';
 

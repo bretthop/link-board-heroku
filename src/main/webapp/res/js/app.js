@@ -36,5 +36,5 @@ requirejs.config({
 requirejs(['app/api-functions', 'app/frontend', 'bootstrap/js/bootstrap'],
     function (api, frontend) {
         frontend.registerHandlers();
-        api.loadLinks();
+        api.loadLinkGroups();
     });

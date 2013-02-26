@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(
     name = "LinkGroupServlet",
@@ -22,6 +23,19 @@ public class LinkGroupServlet extends HttpServlet
     //TODO: Use CDI
     private static final LinkGroupService linkGroupService = new LinkGroupService();
     private static final LinkValidator linkValidator = new LinkValidator();
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    {
+        List<LinkGroupEntity> linkGroups = linkGroupService.getAll();
+
+        resp.setHeader("Content-Type", "application/json");
+
+        ServletOutputStream out = resp.getOutputStream();
+        out.write(JsonUtil.serialise(linkGroups).getBytes());
+        out.flush();
+        out.close();
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException

@@ -19,4 +19,9 @@ public class LinkService
     {
         return linkDao.save(link);
     }
+
+    public List<LinkEntity> getAllForGroup(long groupId)
+    {
+        return linkDao.findAllForGroup(groupId);
+    }
 }

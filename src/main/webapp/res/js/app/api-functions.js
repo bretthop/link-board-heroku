@@ -1,16 +1,37 @@
 define(['jquery', 'underscore', 'app/tmpl'], function($, _, tmpl) {
     var api = {};
 
-    api.loadLinks = function()
+    api.loadLinkGroups = function()
+    {
+        tmpl.fetch(tmpl.LINK_GROUP_TMPL_URL, function(t) {
+            $.ajax({url: '/linkGroupServlet'})
+                .success(function(linkGroups) {
+                    _.each(linkGroups, function(linkGroup) {
+                        var rendered = _.template(t, {linkGroup: linkGroup});
+
+                        $('#linkGroups').append(rendered);
+
+                        api.loadLinks(linkGroup.id);
+                    });
+                })
+        });
+    };
+
+    api.loadLinks = function(groupId)
     {
         tmpl.fetch(tmpl.LINK_TMPL_URL, function(t) {
-            $.ajax({url: '/linkServlet'})
+            $.ajax({url: '/linkServlet', data: {groupId: groupId}})
                 .success(function(links) {
-                    _.each(links, function(link) {
-                        var rendered = _.template(t, {link: link});
+                    if (links.length > 0) {
+                        _.each(links, function(link) {
+                            var rendered = _.template(t, {link: link});
 
-                        $('#links').append(rendered);
-                    });
+                            $('#linksForGroup_' + groupId).append(rendered);
+                        });
+                    }
+                    else {
+                        $('#linksForGroup_' + groupId).append("<p>There are no links in this group!</p>");
+                    }
                 })
         });
     };
@@ -21,10 +42,6 @@ define(['jquery', 'underscore', 'app/tmpl'], function($, _, tmpl) {
         //$.ajax({type: 'POST', url: '/linkServlet', contentType: 'application/json', data: JSON.stringify(link)})
         $.ajax({type: 'POST', url: '/linkServlet', data: link})
             .success(function() {
-                $('#links').html('');
-
-                api.loadLinks();
-
                 if (successCallback) {
                     successCallback();
                 }
@@ -37,8 +54,6 @@ define(['jquery', 'underscore', 'app/tmpl'], function($, _, tmpl) {
         //$.ajax({type: 'POST', url: '/linkServlet', contentType: 'application/json', data: JSON.stringify(link)})
         $.ajax({type: 'POST', url: '/linkGroupServlet', data: linkGroup})
             .success(function() {
-                console.log('Added!');
-
                 if (successCallback) {
                     successCallback();
                 }

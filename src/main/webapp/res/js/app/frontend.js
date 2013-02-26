@@ -33,7 +33,7 @@ define(['jquery', 'app/tmpl', 'app/api-functions', 'bootstrap/js/bootstrap'], fu
                 description: $('#addLinkForm #description').val()
             };
 
-            api.addLink(newLink, frontend.hideAddLinkModal);
+            api.addLink(newLink, frontend.handleSuccessfulAddLink);
         }
     };
 
@@ -48,18 +48,24 @@ define(['jquery', 'app/tmpl', 'app/api-functions', 'bootstrap/js/bootstrap'], fu
                 description: $('#addLinkGroupForm #description').val()
             };
 
-            api.addLinkGroup(newLinkGroup, frontend.hideAddLinkGroupModal);
+            api.addLinkGroup(newLinkGroup, frontend.handleSuccessfulAddLinkGroup);
         }
     };
 
-    frontend.hideAddLinkModal = function()
+    frontend.handleSuccessfulAddLink = function()
     {
+        $('#linkGroups').html('');
+        api.loadLinkGroups();
+
         $('#addLinkModal').modal('hide');
     };
 
 
-    frontend.hideAddLinkGroupModal = function()
+    frontend.handleSuccessfulAddLinkGroup = function()
     {
+        $('#linkGroups').html('');
+        api.loadLinkGroups();
+
         $('#addLinkGroupModal').modal('hide');
     };
 

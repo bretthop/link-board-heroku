@@ -29,7 +29,16 @@ public class LinkServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
 	{
-        List<LinkEntity> links = linkService.getAll();
+        Long groupId = NumberUtil.tryParseLong(req.getParameter("groupId"));
+
+        List<LinkEntity> links;
+
+        if (groupId == null) {
+            links = linkService.getAll();
+        }
+        else {
+            links = linkService.getAllForGroup(groupId);
+        }
 
         resp.setHeader("Content-Type", "application/json");
 
