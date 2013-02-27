@@ -66,6 +66,7 @@
                             <name>webapp</name>
                         </program>
                     </programs>
+                    <extraJvmArguments>-Xdebug -Xrunjdwp:transport=dt_socket,address=49837,suspend=n,server=y</extraJvmArguments>
                 </configuration>
                 <executions>
                     <execution>
