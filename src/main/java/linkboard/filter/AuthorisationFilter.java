@@ -40,6 +40,11 @@ public class AuthorisationFilter implements Filter
                     return;
                 }
             }
+            else {
+                ((HttpServletResponse) response).setStatus(400);
+
+                return;
+            }
         }
 
         chain.doFilter(request, response);

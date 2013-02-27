@@ -20,7 +20,7 @@ import java.util.List;
 
 @WebServlet(
     name = "LinkServlet",
-    urlPatterns = {"/linkServlet"}
+    urlPatterns = {"/api/links"}
 )
 public class LinkServlet extends HttpServlet
 {

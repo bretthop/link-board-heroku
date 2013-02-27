@@ -17,7 +17,7 @@ import java.util.List;
 
 @WebServlet(
     name = "LinkGroupServlet",
-    urlPatterns = {"/linkGroupServlet"}
+    urlPatterns = {"/api/linkGroups"}
 )
 public class LinkGroupServlet extends HttpServlet
 {

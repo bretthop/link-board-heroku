@@ -28,14 +28,14 @@ define(['jquery', 'underscore', 'base64', 'app/tmpl', 'app/ajax-utils'], functio
                 .removeClass('hidden');
         };
 
-        ajax.req({url: '/loginServlet', method: 'POST', username: username, password: password, doneCallback: successFunc, failCallback: failFunc});
+        ajax.req({url: '/api/login', method: 'POST', username: username, password: password, doneCallback: successFunc, failCallback: failFunc});
     };
 
     api.loadLinkGroups = function()
     {
         tmpl.fetch(tmpl.LINK_GROUP_TMPL_URL, function(t) {
             ajax.req({
-                url: 'linkGroupServlet',
+                url: '/api/linkGroups',
                 doneCallback: function(linkGroups) {
                     _.each(linkGroups, function(linkGroup) {
                         var rendered = _.template(t, {linkGroup: linkGroup});
@@ -53,7 +53,7 @@ define(['jquery', 'underscore', 'base64', 'app/tmpl', 'app/ajax-utils'], functio
     {
         tmpl.fetch(tmpl.LINK_TMPL_URL, function(t) {
             ajax.req({
-                url: '/linkServlet',
+                url: '/api/links',
                 data: {groupId: groupId},
                 doneCallback: function(links) {
                     var rendered = '';
@@ -76,13 +76,13 @@ define(['jquery', 'underscore', 'base64', 'app/tmpl', 'app/ajax-utils'], functio
     api.addLink = function(link, successCallback)
     {
         // TODO: Change content-type to JSON (once server can handle it)
-        ajax.req({method: 'POST', url: '/linkServlet', data: link, doneCallback: successCallback});
+        ajax.req({method: 'POST', url: '/api/links', data: link, doneCallback: successCallback});
     };
 
     api.addLinkGroup = function(linkGroup, successCallback)
     {
         // TODO: Change content-type to JSON (once server can handle it)
-        ajax.req({method: 'POST', url: '/linkGroupServlet', data: linkGroup, doneCallback: successCallback});
+        ajax.req({method: 'POST', url: '/api/linkGroups', data: linkGroup, doneCallback: successCallback});
     };
 
     return api;

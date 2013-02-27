@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @WebServlet(
     name = "LoginServlet",
-    urlPatterns = {"/loginServlet"}
+    urlPatterns = {"/api/login"}
 )
 public class LoginServlet extends HttpServlet
 {
