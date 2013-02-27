@@ -1,12 +1,12 @@
 package linkboard.servlet;
 
 import linkboard.data.entity.LinkEntity;
-import linkboard.data.entity.LinkGroupEntity;
 import linkboard.data.entity.UserAccountEntity;
 import linkboard.service.LinkService;
 import linkboard.service.UserAccountService;
 import linkboard.util.JsonUtil;
 import linkboard.util.NumberUtil;
+import linkboard.util.RequestUtil;
 import linkboard.validator.LinkValidator;
 
 import javax.servlet.ServletException;
@@ -33,8 +33,6 @@ public class LinkServlet extends HttpServlet
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
 	{
         UserAccountEntity user = (UserAccountEntity) req.getAttribute("currentUser");
-
-        // TODO: Validate that the user has access to this group
         Long groupId = NumberUtil.tryParseLong(req.getParameter("groupId"));
 
         if (userAccountService.hasAccessToGroup(user, groupId)) {
@@ -57,24 +55,10 @@ public class LinkServlet extends HttpServlet
     {
         UserAccountEntity user = (UserAccountEntity) req.getAttribute("currentUser");
 
-        // TODO: Use Jackson to de-serialise the request body into LinkEntity
-        Long groupId = NumberUtil.tryParseLong(req.getParameter("groupId"));
+        String reqBody = RequestUtil.getRequestBody(req);
+        LinkEntity link = JsonUtil.deserialise(reqBody, LinkEntity.class);
 
-        if (userAccountService.hasAccessToGroup(user, groupId)) {
-            String title       = req.getParameter("title");
-            String href        = req.getParameter("href");
-            String description = req.getParameter("description");
-
-            LinkEntity link = new LinkEntity();
-
-            LinkGroupEntity group = new LinkGroupEntity();
-            group.setId(groupId);
-            link.setGroup(group);
-
-            link.setTitle(title);
-            link.setHref(href);
-            link.setDescription(description);
-
+        if (userAccountService.hasAccessToGroup(user, link.getGroup())) {
             linkValidator.validateLink(link);
 
             link = linkService.saveLink(link);

@@ -4,6 +4,7 @@ import linkboard.data.entity.LinkGroupEntity;
 import linkboard.data.entity.UserAccountEntity;
 import linkboard.service.LinkGroupService;
 import linkboard.util.JsonUtil;
+import linkboard.util.RequestUtil;
 import linkboard.validator.LinkValidator;
 
 import javax.servlet.ServletException;
@@ -45,15 +46,9 @@ public class LinkGroupServlet extends HttpServlet
     {
         UserAccountEntity user = (UserAccountEntity) req.getAttribute("currentUser");
 
-        // TODO: Use Jackson to de-serialise the request body into LinkEntity
-        String title       = req.getParameter("title");
-        String description = req.getParameter("description");
-
-        LinkGroupEntity linkGroup = new LinkGroupEntity();
-
+        String reqBody = RequestUtil.getRequestBody(req);
+        LinkGroupEntity linkGroup = JsonUtil.deserialise(reqBody, LinkGroupEntity.class);
         linkGroup.setUser(user);
-        linkGroup.setTitle(title);
-        linkGroup.setDescription(description);
 
         linkValidator.validateLinkGroup(linkGroup);
 

@@ -44,7 +44,9 @@ define(['jquery', 'app/tmpl', 'app/api-functions', 'bootstrap/js/bootstrap'], fu
 
         if (formValid) {
             var newLink = {
-                groupId: $('#addLinkForm #groupId').val(),
+                group: {
+                    id: $('#addLinkForm #groupId').val()
+                },
                 title: $('#addLinkForm #title').val(),
                 href: $('#addLinkForm #href').val(),
                 description: $('#addLinkForm #description').val()

@@ -75,14 +75,12 @@ define(['jquery', 'underscore', 'base64', 'app/tmpl', 'app/ajax-utils'], functio
 
     api.addLink = function(link, successCallback)
     {
-        // TODO: Change content-type to JSON (once server can handle it)
-        ajax.req({method: 'POST', url: '/api/links', data: link, doneCallback: successCallback});
+        ajax.req({method: 'POST', url: '/api/links', data: link, dataType: ajax.DataType.JSON, doneCallback: successCallback});
     };
 
     api.addLinkGroup = function(linkGroup, successCallback)
     {
-        // TODO: Change content-type to JSON (once server can handle it)
-        ajax.req({method: 'POST', url: '/api/linkGroups', data: linkGroup, doneCallback: successCallback});
+        ajax.req({method: 'POST', url: '/api/linkGroups', data: linkGroup, dataType: ajax.DataType.JSON, doneCallback: successCallback});
     };
 
     return api;

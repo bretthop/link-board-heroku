@@ -2,6 +2,7 @@ package linkboard.service;
 
 import linkboard.data.dao.LinkGroupDao;
 import linkboard.data.dao.UserAccountDao;
+import linkboard.data.entity.LinkGroupEntity;
 import linkboard.data.entity.UserAccountEntity;
 
 public class UserAccountService
@@ -13,6 +14,11 @@ public class UserAccountService
     public UserAccountEntity getByUsernameAndPassword(String username, String password)
     {
         return userAccountDao.findByUsernameAndPassword(username, password);
+    }
+
+    public boolean hasAccessToGroup(UserAccountEntity user, LinkGroupEntity group)
+    {
+        return group != null && this.hasAccessToGroup(user, group.getId());
     }
 
     public boolean hasAccessToGroup(UserAccountEntity user, Long groupId)
