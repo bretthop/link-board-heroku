@@ -2,7 +2,9 @@ package linkboard.servlet;
 
 import linkboard.data.entity.LinkEntity;
 import linkboard.data.entity.LinkGroupEntity;
+import linkboard.data.entity.UserAccountEntity;
 import linkboard.service.LinkService;
+import linkboard.service.UserAccountService;
 import linkboard.util.JsonUtil;
 import linkboard.util.NumberUtil;
 import linkboard.validator.LinkValidator;
@@ -23,60 +25,69 @@ import java.util.List;
 public class LinkServlet extends HttpServlet
 {
     //TODO: Use CDI
+    private static final UserAccountService userAccountService = new UserAccountService();
     private static final LinkService linkService = new LinkService();
     private static final LinkValidator linkValidator = new LinkValidator();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
 	{
+        UserAccountEntity user = (UserAccountEntity) req.getAttribute("currentUser");
+
         // TODO: Validate that the user has access to this group
         Long groupId = NumberUtil.tryParseLong(req.getParameter("groupId"));
 
-        List<LinkEntity> links;
+        if (userAccountService.hasAccessToGroup(user, groupId)) {
+            List<LinkEntity> links = linkService.getAllForGroup(groupId);
 
-        if (groupId == null) {
-            links = linkService.getAll();
+            resp.setHeader("Content-Type", "application/json");
+
+            ServletOutputStream out = resp.getOutputStream();
+            out.write(JsonUtil.serialise(links).getBytes());
+            out.flush();
+            out.close();
         }
         else {
-            links = linkService.getAllForGroup(groupId);
+            resp.setStatus(403);
         }
-
-        resp.setHeader("Content-Type", "application/json");
-
-        ServletOutputStream out = resp.getOutputStream();
-        out.write(JsonUtil.serialise(links).getBytes());
-        out.flush();
-        out.close();
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
+        UserAccountEntity user = (UserAccountEntity) req.getAttribute("currentUser");
+
         // TODO: Use Jackson to de-serialise the request body into LinkEntity
-        Long groupId       = NumberUtil.tryParseLong(req.getParameter("groupId"));
-        String title       = req.getParameter("title");
-        String href        = req.getParameter("href");
-        String description = req.getParameter("description");
+        Long groupId = NumberUtil.tryParseLong(req.getParameter("groupId"));
 
-        LinkEntity link = new LinkEntity();
+        if (userAccountService.hasAccessToGroup(user, groupId)) {
+            String title       = req.getParameter("title");
+            String href        = req.getParameter("href");
+            String description = req.getParameter("description");
 
-        LinkGroupEntity group = new LinkGroupEntity();
-        group.setId(groupId);
-        link.setGroup(group);
+            LinkEntity link = new LinkEntity();
 
-        link.setTitle(title);
-        link.setHref(href);
-        link.setDescription(description);
+            LinkGroupEntity group = new LinkGroupEntity();
+            group.setId(groupId);
+            link.setGroup(group);
 
-        linkValidator.validateLink(link);
+            link.setTitle(title);
+            link.setHref(href);
+            link.setDescription(description);
 
-        link = linkService.saveLink(link);
+            linkValidator.validateLink(link);
 
-        resp.setHeader("Content-Type", "application/json");
+            link = linkService.saveLink(link);
 
-        ServletOutputStream out = resp.getOutputStream();
-        out.write(JsonUtil.serialise(link).getBytes());
-        out.flush();
-        out.close();
+            resp.setHeader("Content-Type", "application/json");
+
+            ServletOutputStream out = resp.getOutputStream();
+            out.write(JsonUtil.serialise(link).getBytes());
+            out.flush();
+            out.close();
+        }
+        else {
+            resp.setStatus(403);
+        }
     }
 }

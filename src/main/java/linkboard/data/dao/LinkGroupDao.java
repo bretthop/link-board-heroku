@@ -37,11 +37,31 @@ public class LinkGroupDao
             Connection conn = ConnectionManager.getConnection();
 
             Statement stmt = conn.createStatement();
-            stmt.executeUpdate(String.format("INSERT INTO link_group (title, description) VALUES ('%s', '%s')",
+            stmt.executeUpdate(String.format("INSERT INTO link_group (user_account_id, title, description) VALUES (%d, '%s', '%s')",
+                               entity.getUser().getId(),
                                entity.getTitle(),
                                entity.getDescription()));
 
             return entity;
+        }
+        catch (Exception e) {
+            // TODO: Add logging
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public boolean hasAccessToGroup(long groupId, long userId)
+    {
+        try {
+            Connection conn = ConnectionManager.getConnection();
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(String.format(
+                    "SELECT * FROM link_group WHERE id = %d AND user_account_id = %d",
+                    groupId, userId));
+
+            return rs.next();
         }
         catch (Exception e) {
             // TODO: Add logging

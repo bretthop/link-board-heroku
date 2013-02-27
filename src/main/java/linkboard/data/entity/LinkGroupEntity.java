@@ -4,6 +4,7 @@ package linkboard.data.entity;
 public class LinkGroupEntity
 {
     private Long id;
+    private UserAccountEntity user;
     private String title;
     private String description;
 
@@ -15,6 +16,16 @@ public class LinkGroupEntity
     public void setId(Long id)
     {
         this.id = id;
+    }
+
+    public UserAccountEntity getUser()
+    {
+        return user;
+    }
+
+    public void setUser(UserAccountEntity user)
+    {
+        this.user = user;
     }
 
     public String getTitle()
