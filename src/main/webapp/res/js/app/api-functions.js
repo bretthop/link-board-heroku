@@ -1,4 +1,4 @@
-define(['jquery', 'underscore', 'base64', 'app/tmpl'], function($, _, base64, tmpl) {
+define(['jquery', 'underscore', 'base64', 'app/tmpl', 'app/ajax-utils'], function($, _, base64, tmpl, ajax) {
     var api = {};
 
     api.login = function(username, password, successCallback)
@@ -28,40 +28,15 @@ define(['jquery', 'underscore', 'base64', 'app/tmpl'], function($, _, base64, tm
                 .removeClass('hidden');
         };
 
-        // TODO: Add base 64 encoding
-        var authToken = username + ':' + password;
-//        var authToken = base64.encode(username + ':' + password);
-
-        $.ajax({
-            type: 'POST',
-            url: 'loginServlet',
-            beforeSend: function (xhr) { // TODO: See if you can set this by the 'headers' prop
-                xhr.setRequestHeader ('Authorization', 'Basic ' + authToken);
-            }
-        }).done(function(data) {
-                if (successFunc) {
-                    successFunc(data);
-                }
-            }).fail(function() {
-                if (failFunc) {
-                    failFunc();
-                }
-            });
+        ajax.req({url: '/loginServlet', method: 'POST', username: username, password: password, doneCallback: successFunc, failCallback: failFunc});
     };
 
     api.loadLinkGroups = function()
     {
-        // TODO: Add base 64 encoding
-        var authToken = sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password');
-//        var authToken = base64.encode(username + ':' + password);
-
         tmpl.fetch(tmpl.LINK_GROUP_TMPL_URL, function(t) {
-            $.ajax({
-                url: '/linkGroupServlet',
-                beforeSend: function (xhr) { // TODO: See if you can set this by the 'headers' prop
-                    xhr.setRequestHeader ('Authorization', 'Basic ' + authToken);
-                }})
-                .success(function(linkGroups) {
+            ajax.req({
+                url: 'linkGroupServlet',
+                doneCallback: function(linkGroups) {
                     _.each(linkGroups, function(linkGroup) {
                         var rendered = _.template(t, {linkGroup: linkGroup});
 
@@ -69,22 +44,18 @@ define(['jquery', 'underscore', 'base64', 'app/tmpl'], function($, _, base64, tm
 
                         api.loadLinks(linkGroup.id);
                     });
-                })
+                }
+            });
         });
     };
 
     api.loadLinks = function(groupId)
     {
-        // TODO: Add base 64 encoding
-        var authToken = sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password');
-//        var authToken = base64.encode(username + ':' + password);
-
         tmpl.fetch(tmpl.LINK_TMPL_URL, function(t) {
-            $.ajax({url: '/linkServlet', data: {groupId: groupId},
-                beforeSend: function (xhr) { // TODO: See if you can set this by the 'headers' prop
-                    xhr.setRequestHeader ('Authorization', 'Basic ' + authToken);
-                }})
-                .success(function(links) {
+            ajax.req({
+                url: '/linkServlet',
+                data: {groupId: groupId},
+                doneCallback: function(links) {
                     var rendered = '';
 
                     if (links.length > 0) {
@@ -97,46 +68,21 @@ define(['jquery', 'underscore', 'base64', 'app/tmpl'], function($, _, base64, tm
                     }
 
                     $('#linksForGroup_' + groupId).html(rendered);
-                })
+                }
+            });
         });
     };
 
     api.addLink = function(link, successCallback)
     {
-        // TODO: Add base 64 encoding
-        var authToken = sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password');
-//        var authToken = base64.encode(username + ':' + password);
-
         // TODO: Change content-type to JSON (once server can handle it)
-        //$.ajax({type: 'POST', url: '/linkServlet', contentType: 'application/json', data: JSON.stringify(link)})
-        $.ajax({type: 'POST', url: '/linkServlet', data: link,
-            beforeSend: function (xhr) { // TODO: See if you can set this by the 'headers' prop
-                xhr.setRequestHeader ('Authorization', 'Basic ' + authToken);
-            }})
-            .success(function() {
-                if (successCallback) {
-                    successCallback();
-                }
-            });
+        ajax.req({method: 'POST', url: '/linkServlet', data: link, doneCallback: successCallback});
     };
 
     api.addLinkGroup = function(linkGroup, successCallback)
     {
-        // TODO: Add base 64 encoding
-        var authToken = sessionStorage.getItem('username') + ':' + sessionStorage.getItem('password');
-//        var authToken = base64.encode(username + ':' + password);
-
         // TODO: Change content-type to JSON (once server can handle it)
-        //$.ajax({type: 'POST', url: '/linkServlet', contentType: 'application/json', data: JSON.stringify(link)})
-        $.ajax({type: 'POST', url: '/linkGroupServlet', data: linkGroup,
-            beforeSend: function (xhr) { // TODO: See if you can set this by the 'headers' prop
-                xhr.setRequestHeader ('Authorization', 'Basic ' + authToken);
-            }})
-            .success(function() {
-                if (successCallback) {
-                    successCallback();
-                }
-            });
+        ajax.req({method: 'POST', url: '/linkGroupServlet', data: linkGroup, doneCallback: successCallback});
     };
 
     return api;
