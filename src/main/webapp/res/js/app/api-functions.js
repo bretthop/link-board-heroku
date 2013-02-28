@@ -1,6 +1,36 @@
 define(['jquery', 'underscore', 'base64', 'app/tmpl', 'app/ajax-utils'], function($, _, base64, tmpl, ajax) {
     var api = {};
 
+    api.signUp = function(newUser, successCallback)
+    {
+        $('.loginResult').addClass('hidden');
+
+        var successFunc = function(user) {
+            sessionStorage.setItem('username', newUser.username);
+            sessionStorage.setItem('password', newUser.password);
+
+            $('.loginResult').html('Success! You are now logged in.')
+                .addClass('text-success')
+                .removeClass('hidden');
+
+            if (successCallback) {
+                successCallback();
+            }
+        };
+
+        var failFunc = function() {
+            sessionStorage.removeItem('username');
+            sessionStorage.removeItem('password');
+
+            $('.loginResult')
+                .html('Failed!')
+                .addClass('text-error')
+                .removeClass('hidden');
+        };
+
+        ajax.req({url: '/api/users', method: 'POST', authenticate: false, data: newUser, dataType: ajax.DataType.JSON, doneCallback: successFunc, failCallback: failFunc});
+    };
+
     api.login = function(username, password, successCallback)
     {
         $('.loginResult').addClass('hidden');
@@ -28,7 +58,7 @@ define(['jquery', 'underscore', 'base64', 'app/tmpl', 'app/ajax-utils'], functio
                 .removeClass('hidden');
         };
 
-        ajax.req({url: '/api/login', method: 'POST', username: username, password: password, doneCallback: successFunc, failCallback: failFunc});
+        ajax.req({url: '/api/users', method: 'GET', username: username, password: password, doneCallback: successFunc, failCallback: failFunc});
     };
 
     api.loadLinkGroups = function()

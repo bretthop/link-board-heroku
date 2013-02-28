@@ -1,11 +1,9 @@
 package linkboard.servlet;
 
-import linkboard.data.entity.LinkGroupEntity;
 import linkboard.data.entity.UserAccountEntity;
-import linkboard.service.LinkGroupService;
+import linkboard.service.UserAccountService;
 import linkboard.util.JsonUtil;
 import linkboard.util.RequestUtil;
-import linkboard.validator.LinkValidator;
 import linkboard.validator.UserAccountValidator;
 
 import javax.servlet.ServletException;
@@ -15,19 +13,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(
-    name = "LinkGroupServlet",
-    urlPatterns = {"/api/linkGroups"}
+    name = "UserAccountServlet",
+    urlPatterns = {"/api/users"}
 )
-public class LinkGroupServlet extends HttpServlet
+public class UserAccountServlet extends HttpServlet
 {
     //TODO: Use CDI
-    private static final LinkGroupService linkGroupService = new LinkGroupService();
-    private static final LinkValidator linkValidator = new LinkValidator();
+    private static final UserAccountService userAccountService = new UserAccountService();
     private static final UserAccountValidator userAccountValidator = new UserAccountValidator();
-
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
@@ -35,12 +30,10 @@ public class LinkGroupServlet extends HttpServlet
         UserAccountEntity user = (UserAccountEntity) req.getAttribute("currentUser");
         userAccountValidator.validateUser(user);
 
-        List<LinkGroupEntity> linkGroups = linkGroupService.getAllForUser(user);
-
         resp.setHeader("Content-Type", "application/json");
 
         ServletOutputStream out = resp.getOutputStream();
-        out.write(JsonUtil.serialise(linkGroups).getBytes());
+        out.write(JsonUtil.serialise(user).getBytes());
         out.flush();
         out.close();
     }
@@ -48,22 +41,10 @@ public class LinkGroupServlet extends HttpServlet
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        UserAccountEntity user = (UserAccountEntity) req.getAttribute("currentUser");
-        userAccountValidator.validateUser(user);
-
         String reqBody = RequestUtil.getRequestBody(req);
-        LinkGroupEntity linkGroup = JsonUtil.deserialise(reqBody, LinkGroupEntity.class);
-        linkGroup.setUser(user);
+        UserAccountEntity newUser = JsonUtil.deserialise(reqBody, UserAccountEntity.class);
 
-        linkValidator.validateLinkGroup(linkGroup);
-
-        linkGroup = linkGroupService.saveLinkGroup(linkGroup);
-
-        resp.setHeader("Content-Type", "application/json");
-
-        ServletOutputStream out = resp.getOutputStream();
-        out.write(JsonUtil.serialise(linkGroup).getBytes());
-        out.flush();
-        out.close();
+        userAccountValidator.validateUser(newUser);
+        userAccountService.createUser(newUser);
     }
 }

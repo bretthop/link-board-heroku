@@ -11,6 +11,11 @@ public class UserAccountService
     private static final UserAccountDao userAccountDao = new UserAccountDao();
     private static final LinkGroupDao linkGroupDao = new LinkGroupDao();
 
+    public UserAccountEntity createUser(UserAccountEntity user)
+    {
+        return userAccountDao.save(user);
+    }
+
     public UserAccountEntity getByUsernameAndPassword(String username, String password)
     {
         return userAccountDao.findByUsernameAndPassword(username, password);

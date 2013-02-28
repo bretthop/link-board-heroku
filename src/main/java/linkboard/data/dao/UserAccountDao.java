@@ -28,6 +28,31 @@ public class UserAccountDao
         }
     }
 
+    public UserAccountEntity save(UserAccountEntity entity)
+    {
+        try {
+            Connection conn = ConnectionManager.getConnection();
+
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(String.format("INSERT INTO user_account " +
+                                                     "(username, password, email, first_name, last_name) " +
+                                                     "VALUES " +
+                                                     "('%s', '%s', '%s', '%s', '%s')",
+                                             entity.getUsername(),
+                                             entity.getPassword(),
+                                             entity.getEmail(),
+                                             entity.getFirstName(),
+                                             entity.getLastName())
+                               );
+
+            return entity;
+        }
+        catch (Exception e) {
+            // TODO: Add logging
+            throw new RuntimeException(e);
+        }
+    }
+
     private UserAccountEntity mapResultToUserAccount(ResultSet rs) throws SQLException
     {
         UserAccountEntity user = null;

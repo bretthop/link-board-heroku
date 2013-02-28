@@ -4,7 +4,7 @@ CREATE TABLE user_account (
   password text NOT NULL,
   email text,
   first_name text,
-  last_name text,
+  last_name text
 );
 
 CREATE TABLE link_group (

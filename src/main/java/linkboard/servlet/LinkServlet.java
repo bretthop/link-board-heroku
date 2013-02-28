@@ -2,12 +2,14 @@ package linkboard.servlet;
 
 import linkboard.data.entity.LinkEntity;
 import linkboard.data.entity.UserAccountEntity;
+import linkboard.exception.RestException;
 import linkboard.service.LinkService;
 import linkboard.service.UserAccountService;
 import linkboard.util.JsonUtil;
 import linkboard.util.NumberUtil;
 import linkboard.util.RequestUtil;
 import linkboard.validator.LinkValidator;
+import linkboard.validator.UserAccountValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -28,11 +30,15 @@ public class LinkServlet extends HttpServlet
     private static final UserAccountService userAccountService = new UserAccountService();
     private static final LinkService linkService = new LinkService();
     private static final LinkValidator linkValidator = new LinkValidator();
+    private static final UserAccountValidator userAccountValidator = new UserAccountValidator();
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
 	{
         UserAccountEntity user = (UserAccountEntity) req.getAttribute("currentUser");
+        userAccountValidator.validateUser(user);
+
         Long groupId = NumberUtil.tryParseLong(req.getParameter("groupId"));
 
         if (userAccountService.hasAccessToGroup(user, groupId)) {
@@ -46,7 +52,7 @@ public class LinkServlet extends HttpServlet
             out.close();
         }
         else {
-            resp.setStatus(403);
+            throw new RestException(403);
         }
     }
 
@@ -54,6 +60,7 @@ public class LinkServlet extends HttpServlet
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
         UserAccountEntity user = (UserAccountEntity) req.getAttribute("currentUser");
+        userAccountValidator.validateUser(user);
 
         String reqBody = RequestUtil.getRequestBody(req);
         LinkEntity link = JsonUtil.deserialise(reqBody, LinkEntity.class);
@@ -71,7 +78,7 @@ public class LinkServlet extends HttpServlet
             out.close();
         }
         else {
-            resp.setStatus(403);
+            throw new RestException(403);
         }
     }
 }

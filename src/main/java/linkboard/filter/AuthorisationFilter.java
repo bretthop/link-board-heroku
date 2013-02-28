@@ -1,6 +1,7 @@
 package linkboard.filter;
 
 import linkboard.data.entity.UserAccountEntity;
+import linkboard.exception.RestException;
 import linkboard.service.UserAccountService;
 import linkboard.util.Base64Util;
 
@@ -36,15 +37,8 @@ public class AuthorisationFilter implements Filter
                     httpRequest.setAttribute("currentUser", user);
                 }
                 else {
-                    ((HttpServletResponse) response).setStatus(401);
-
-                    return;
+                    throw new RestException(401);
                 }
-            }
-            else {
-                ((HttpServletResponse) response).setStatus(400);
-
-                return;
             }
         }
 
