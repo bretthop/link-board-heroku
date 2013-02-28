@@ -1,4 +1,4 @@
-define(['jquery'], function($) {
+define(['jquery', 'base64'], function($, base64) {
     var ajax = {};
 
     ajax.DataType = {
@@ -26,12 +26,9 @@ define(['jquery'], function($) {
 
         if (authenticate) {
             if (username && password) {
-                // TODO: Add base64 encoding once server can handle it
-                var authToken = username + ':' + password;
+                var authToken = base64.encode(username + ':' + password);
 
-                ajaxDescriptor.beforeSend = function (xhr) { // TODO: See if you can set this by the 'headers' prop
-                    xhr.setRequestHeader ('Authorization', 'Basic ' + authToken);
-                };
+                ajaxDescriptor.headers = { Authorization: 'Basic ' + authToken };
             }
         }
 

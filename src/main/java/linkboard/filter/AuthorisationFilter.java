@@ -2,6 +2,7 @@ package linkboard.filter;
 
 import linkboard.data.entity.UserAccountEntity;
 import linkboard.service.UserAccountService;
+import linkboard.util.Base64Util;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -25,9 +26,9 @@ public class AuthorisationFilter implements Filter
             String authToken = httpRequest.getHeader("Authorization");
 
             if (authToken != null) {
-                // TODO: Add base64 decoding
-                String username = authToken.split("Basic ")[1].split(":")[0];
-                String password = authToken.split("Basic ")[1].split(":")[1];
+                String decodedToken = Base64Util.decode(authToken.split("Basic ")[1]);
+                String username = decodedToken.split(":")[0];
+                String password = decodedToken.split(":")[1];
 
                 UserAccountEntity user = userAccountService.getByUsernameAndPassword(username, password);
 
