@@ -35,7 +35,6 @@ public class UserAccountService
 
     public boolean hasAccessToLink(UserAccountEntity user, Long linkId)
     {
-        // TODO - Implement
-        return linkId != null && true;
+        return linkId != null && linkDao.hasAccessToLink(user.getId(), linkId);
     }
 }

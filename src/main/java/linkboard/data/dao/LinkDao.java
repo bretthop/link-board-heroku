@@ -94,4 +94,19 @@ public class LinkDao
 
         return links;
     }
+
+    public boolean hasAccessToLink(long userId, long linkId)
+    {
+        try (
+            Connection conn = ConnectionManager.getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM link l, link_group lg WHERE l.id = %d AND l.link_group_id = lg.id AND lg.user_account_id = %d;", linkId, userId))
+        ) {
+            return rs.next();
+        }
+        catch (Exception e) {
+            // TODO: Add logging
+            throw new RuntimeException(e);
+        }
+    }
 }
