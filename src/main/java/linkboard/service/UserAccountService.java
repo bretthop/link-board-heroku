@@ -1,5 +1,6 @@
 package linkboard.service;
 
+import linkboard.data.dao.LinkDao;
 import linkboard.data.dao.LinkGroupDao;
 import linkboard.data.dao.UserAccountDao;
 import linkboard.data.entity.LinkGroupEntity;
@@ -10,6 +11,7 @@ public class UserAccountService
     // TODO: Use CDI
     private static final UserAccountDao userAccountDao = new UserAccountDao();
     private static final LinkGroupDao linkGroupDao = new LinkGroupDao();
+    private static final LinkDao linkDao = new LinkDao();
 
     public UserAccountEntity createUser(UserAccountEntity user)
     {
@@ -28,6 +30,12 @@ public class UserAccountService
 
     public boolean hasAccessToGroup(UserAccountEntity user, Long groupId)
     {
-        return groupId != null && linkGroupDao.hasAccessToGroup(groupId, user.getId());
+        return groupId != null && linkGroupDao.hasAccessToGroup(user.getId(), groupId);
+    }
+
+    public boolean hasAccessToLink(UserAccountEntity user, Long linkId)
+    {
+        // TODO - Implement
+        return linkId != null && true;
     }
 }

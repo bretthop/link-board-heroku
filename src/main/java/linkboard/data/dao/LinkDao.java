@@ -64,6 +64,20 @@ public class LinkDao
         }
     }
 
+    public void delete(long id)
+    {
+        try {
+            Connection conn = ConnectionManager.getConnection();
+
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(String.format("DELETE FROM link WHERE id = %d", id));
+        }
+        catch (Exception e) {
+            // TODO: Add logging
+            throw new RuntimeException(e);
+        }
+    }
+
     private List<LinkEntity> mapResultsToLinksList(ResultSet rs) throws SQLException
     {
         List<LinkEntity> links = new ArrayList<LinkEntity>();

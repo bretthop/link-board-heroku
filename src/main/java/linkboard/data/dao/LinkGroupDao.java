@@ -51,7 +51,7 @@ public class LinkGroupDao
     }
 
 
-    public boolean hasAccessToGroup(long groupId, long userId)
+    public boolean hasAccessToGroup(long userId, long groupId)
     {
         try {
             Connection conn = ConnectionManager.getConnection();

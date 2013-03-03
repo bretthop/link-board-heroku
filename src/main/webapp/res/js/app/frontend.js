@@ -17,6 +17,9 @@ define(['jquery', 'app/tmpl', 'app/api-functions', 'bootstrap/js/bootstrap'], fu
         /* Add Link Group */
         $('#showAddLinkGroupBtn').live('click', frontend.showAddLinkGroupModal);
         $('#addLinkGroupBtn').live('click', frontend.handleAddLinkGroupClick);
+
+        /* Delete Link */
+        $('.deleteLinkBtn').live('click', function(evt) { frontend.handleDeleteLinkClick(evt.currentTarget); });
     };
 
     /**
@@ -188,6 +191,23 @@ define(['jquery', 'app/tmpl', 'app/api-functions', 'bootstrap/js/bootstrap'], fu
         api.loadLinkGroups();
 
         $('#addLinkGroupModal').modal('hide');
+    };
+
+    /**
+     * Delete Link
+     * */
+    frontend.handleDeleteLinkClick = function(triggerEl)
+    {
+        var linkId = triggerEl.id;
+
+        api.deleteLink(linkId, frontend.handleSuccessfulDeleteLink);
+    };
+
+    frontend.handleSuccessfulDeleteLink = function()
+    {
+        // TODO: Make more efficient
+        $('#linkGroups').html('');
+        api.loadLinkGroups();
     };
 
     return frontend;

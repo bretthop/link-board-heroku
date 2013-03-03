@@ -32,7 +32,6 @@ public class LinkServlet extends HttpServlet
     private static final LinkValidator linkValidator = new LinkValidator();
     private static final UserAccountValidator userAccountValidator = new UserAccountValidator();
 
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
 	{
@@ -76,6 +75,23 @@ public class LinkServlet extends HttpServlet
             out.write(JsonUtil.serialise(link).getBytes());
             out.flush();
             out.close();
+        }
+        else {
+            throw new RestException(403);
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    {
+        UserAccountEntity user = (UserAccountEntity) req.getAttribute("currentUser");
+        userAccountValidator.validateUser(user);
+
+        // TODO: Validate not null
+        Long linkId = NumberUtil.tryParseLong(req.getParameter("id"));
+
+        if (userAccountService.hasAccessToLink(user, linkId)) {
+            linkService.deleteLink(linkId);
         }
         else {
             throw new RestException(403);

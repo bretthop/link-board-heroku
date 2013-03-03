@@ -24,4 +24,9 @@ public class LinkService
     {
         return linkDao.findAllForGroup(groupId);
     }
+
+    public void deleteLink(Long id)
+    {
+        linkDao.delete(id);
+    }
 }

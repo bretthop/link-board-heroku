@@ -113,5 +113,11 @@ define(['jquery', 'underscore', 'base64', 'app/tmpl', 'app/ajax-utils'], functio
         ajax.req({method: 'POST', url: '/api/linkGroups', data: linkGroup, dataType: ajax.DataType.JSON, doneCallback: successCallback});
     };
 
+    api.deleteLink = function(linkId, successCallback)
+    {
+        // See http://bugs.jquery.com/ticket/11586 for why im manually adding ID to the url here
+        ajax.req({method: 'DELETE', url: '/api/links?id=' + linkId, doneCallback: successCallback});
+    };
+
     return api;
 });
