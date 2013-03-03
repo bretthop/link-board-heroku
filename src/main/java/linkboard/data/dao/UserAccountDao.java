@@ -12,14 +12,11 @@ public class UserAccountDao
 {
     public UserAccountEntity findByUsernameAndPassword(String username, String password)
     {
-        try {
+        try (
             Connection conn = ConnectionManager.getConnection();
-
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(String.format(
-                    "SELECT * FROM user_account WHERE username = '%s' and password = '%s'",
-                    username, password));
-
+            ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM user_account WHERE username = '%s' and password = '%s'", username, password))
+        ) {
             return this.mapResultToUserAccount(rs);
         }
         catch (Exception e) {
@@ -30,20 +27,23 @@ public class UserAccountDao
 
     public UserAccountEntity save(UserAccountEntity entity)
     {
-        try {
+        try (
             Connection conn = ConnectionManager.getConnection();
-
-            Statement stmt = conn.createStatement();
-            stmt.executeUpdate(String.format("INSERT INTO user_account " +
-                                                     "(username, password, email, first_name, last_name) " +
-                                                     "VALUES " +
-                                                     "('%s', '%s', '%s', '%s', '%s')",
-                                             entity.getUsername(),
-                                             entity.getPassword(),
-                                             entity.getEmail(),
-                                             entity.getFirstName(),
-                                             entity.getLastName())
-                               );
+            Statement stmt = conn.createStatement()
+        ) {
+            stmt.executeUpdate(
+                    String.format(
+                            "INSERT INTO user_account " +
+                                 "(username, password, email, first_name, last_name) " +
+                                 "VALUES " +
+                                 "('%s', '%s', '%s', '%s', '%s')",
+                                 entity.getUsername(),
+                                 entity.getPassword(),
+                                 entity.getEmail(),
+                                 entity.getFirstName(),
+                                 entity.getLastName()
+                        )
+                    );
 
             return entity;
         }

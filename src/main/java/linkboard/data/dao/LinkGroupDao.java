@@ -15,14 +15,11 @@ public class LinkGroupDao
 {
     public List<LinkGroupEntity> findAllForUser(UserAccountEntity user)
     {
-        try {
+        try (
             Connection conn = ConnectionManager.getConnection();
-
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(String.format(
-                    "SELECT * FROM link_group WHERE user_account_id = %d",
-                    user.getId()));
-
+            ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM link_group WHERE user_account_id = %d", user.getId()))
+        ) {
             return this.mapResultsToLinkGroupsList(rs);
         }
         catch (Exception e) {
@@ -33,10 +30,10 @@ public class LinkGroupDao
 
     public LinkGroupEntity save(LinkGroupEntity entity)
     {
-        try {
+        try (
             Connection conn = ConnectionManager.getConnection();
-
-            Statement stmt = conn.createStatement();
+            Statement stmt = conn.createStatement()
+        ) {
             stmt.executeUpdate(String.format("INSERT INTO link_group (user_account_id, title, description) VALUES (%d, '%s', '%s')",
                                entity.getUser().getId(),
                                entity.getTitle(),
@@ -53,14 +50,11 @@ public class LinkGroupDao
 
     public boolean hasAccessToGroup(long userId, long groupId)
     {
-        try {
+        try (
             Connection conn = ConnectionManager.getConnection();
-
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(String.format(
-                    "SELECT * FROM link_group WHERE id = %d AND user_account_id = %d",
-                    groupId, userId));
-
+            ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM link_group WHERE id = %d AND user_account_id = %d", groupId, userId))
+        ) {
             return rs.next();
         }
         catch (Exception e) {

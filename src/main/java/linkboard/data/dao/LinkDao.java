@@ -14,12 +14,12 @@ public class LinkDao
 {
     public List<LinkEntity> findAll()
     {
-        try {
+
+        try (
             Connection conn = ConnectionManager.getConnection();
-
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM link");
-
+            ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM link"))
+        ) {
             return this.mapResultsToLinksList(rs);
         }
         catch (Exception e) {
@@ -30,12 +30,11 @@ public class LinkDao
 
     public List<LinkEntity> findAllForGroup(long groupId)
     {
-        try {
+        try (
             Connection conn = ConnectionManager.getConnection();
-
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM link WHERE link_group_id = %d", groupId));
-
+            ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM link WHERE link_group_id = %d", groupId))
+        ) {
             return this.mapResultsToLinksList(rs);
         }
         catch (Exception e) {
@@ -46,10 +45,10 @@ public class LinkDao
 
     public LinkEntity save(LinkEntity entity)
     {
-        try {
+        try (
             Connection conn = ConnectionManager.getConnection();
-
-            Statement stmt = conn.createStatement();
+            Statement stmt = conn.createStatement()
+        ) {
             stmt.executeUpdate(String.format("INSERT INTO link (link_group_id, title, href, description) VALUES (%d, '%s', '%s', '%s')",
                                entity.getGroup().getId(),
                                entity.getTitle(),
@@ -66,10 +65,10 @@ public class LinkDao
 
     public void delete(long id)
     {
-        try {
+        try (
             Connection conn = ConnectionManager.getConnection();
-
-            Statement stmt = conn.createStatement();
+            Statement stmt = conn.createStatement()
+        ) {
             stmt.executeUpdate(String.format("DELETE FROM link WHERE id = %d", id));
         }
         catch (Exception e) {
