@@ -1,10 +1,20 @@
 package linkboard.spring.data.entity;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 //@Entity
 public class UserAccountEntity
 {
+    @NotNull
     private Long id;
+
+    @NotNull
+    @Size(min = 1)
     private String username;
+
+    @NotNull
+    @Size(min = 1)
     private String password;
     private String email;
     private String firstName;

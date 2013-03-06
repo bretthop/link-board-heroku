@@ -11,10 +11,25 @@ import java.util.List;
 public class LinkService
 {
     @Resource
-    LinkDao linkDao;
+    private LinkDao linkDao;
 
     public List<LinkEntity> getAll()
     {
         return linkDao.findAll();
+    }
+
+    public LinkEntity saveLink(LinkEntity link)
+    {
+        return linkDao.save(link);
+    }
+
+    public List<LinkEntity> getAllForGroup(long groupId)
+    {
+        return linkDao.findAllForGroup(groupId);
+    }
+
+    public void deleteLink(Long id)
+    {
+        linkDao.delete(id);
     }
 }

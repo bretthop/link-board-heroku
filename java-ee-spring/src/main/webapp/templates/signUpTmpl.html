@@ -1,0 +1,46 @@
+<div id="signUpModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="signUpLabel" aria-hidden="true">
+    <div class="modal-header">
+        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>-->
+        <h3 id="signUpLabel">Sign Up</h3>
+    </div>
+    <div class="modal-body">
+        <form id="signUp" class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="username">Username</label>
+                <div class="controls">
+                    <input type="text" name="username" id="username" placeholder="Username" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="password">Password</label>
+                <div class="controls">
+                    <input type="password" name="password" id="password" placeholder="Password" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="email">Email</label>
+                <div class="controls">
+                    <input type="text" name="email" id="email" placeholder="Email" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="firstName">First Name</label>
+                <div class="controls">
+                    <input type="text" name="firstName" id="firstName" placeholder="First Name" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="lastName">Last Name</label>
+                <div class="controls">
+                    <input type="text" name="lastName" id="lastName" placeholder="Last Name" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <span class="ajax-loader inline-block hidden"></span>
+        <span class="signUpResult hidden"></span>
+        <!--<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>-->
+        <button id="signUpBtn" class="btn btn-primary">Sign Up</button>
+    </div>
+</div>
