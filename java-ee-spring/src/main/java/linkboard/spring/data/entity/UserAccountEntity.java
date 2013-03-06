@@ -6,7 +6,6 @@ import javax.validation.constraints.Size;
 //@Entity
 public class UserAccountEntity
 {
-    @NotNull
     private Long id;
 
     @NotNull

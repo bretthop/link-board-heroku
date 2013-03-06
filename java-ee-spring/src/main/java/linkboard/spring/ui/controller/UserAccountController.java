@@ -4,7 +4,6 @@ import linkboard.spring.TemporaryUser;
 import linkboard.spring.data.entity.UserAccountEntity;
 import linkboard.spring.service.UserAccountService;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,7 +28,7 @@ public class UserAccountController
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody UserAccountEntity postCollection(@Valid @RequestBody UserAccountEntity user, BindingResult validationErrors)
+    public @ResponseBody UserAccountEntity postCollection(@Valid @RequestBody UserAccountEntity user)
     {
         UserAccountEntity result;
 
