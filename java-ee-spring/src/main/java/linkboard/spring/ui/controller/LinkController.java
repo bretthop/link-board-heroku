@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -27,7 +26,7 @@ public class LinkController
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody List<LinkEntity> getCollection(@RequestParam("groupId") long groupId)
     {
-        List<LinkEntity> result = new ArrayList<LinkEntity>();
+        List<LinkEntity> result;
 
         // Dummy user for now
         UserAccountEntity user = TemporaryUser.get();
