@@ -1,17 +1,39 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
     <!-- Enables @Service, @Controller, @Repository -->
     <context:component-scan base-package="linkboard.spring" />
 
-    <!-- Enables advanced features of Controllers (enables attempting json serialisation, as well as mapping JSON requests to beans) -->
+    <!-- Enables advanced features of Controllers (attempting json serialisation, as well as mapping JSON requests to beans) -->
     <mvc:annotation-driven />
 
     <!-- Kicks off spring validation -->
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+    <!-- Setup c3p0 datasource pooling -->
+    <!-- TODO: Load DB props from %DATABASE_URL% -->
+    <bean id="linkBoardDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="user" value="postgres" />
+        <property name="password" value="password" />
+        <property name="driverClass" value="org.postgresql.Driver" />
+        <property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/linkboard" />
+        <property name="initialPoolSize" value="5" />
+        <property name="maxPoolSize" value="20" />
+        <property name="minPoolSize" value="5" />
+        <property name="acquireIncrement" value="5" />
+    </bean>
+
+    <!-- TODO: Research the following beans and tx:annotation-driven (i think the annotation-driven one has to do with transactions) -->
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+
+    <bean class="org.springframework.orm.jpa.JpaTransactionManager" id="transactionManager">
+        <property name="entityManagerFactory" ref="localContainerEntityManagerFactoryBean" />
+    </bean>
 </beans>

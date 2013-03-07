@@ -1,11 +1,19 @@
 package linkboard.spring.data.entity;
 
 
-//@Entity
+import javax.persistence.*;
+
+@Entity
 public class LinkGroupEntity
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "user_account_id")
     private UserAccountEntity user;
+
     private String title;
     private String description;
 

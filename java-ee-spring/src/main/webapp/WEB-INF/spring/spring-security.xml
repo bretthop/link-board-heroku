@@ -7,8 +7,9 @@
 	                             http://www.springframework.org/schema/security
 	                             http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
 
-    <security:http auto-config="true" create-session="never">
-        <intercept-url pattern="/api/*" access="ROLE_USER" /> <!-- TODO: Determine how to controll this via controller annotations -->
+    <security:http auto-config="true" create-session="never" use-expressions="true">
+        <intercept-url method="POST" pattern="/api/users" access="permitAll()" />
+        <intercept-url pattern="/api/*" access="hasRole('ROLE_USER')" /> <!-- TODO: Determine how to controll this via controller annotations -->
     </security:http>
 
     <security:authentication-manager>

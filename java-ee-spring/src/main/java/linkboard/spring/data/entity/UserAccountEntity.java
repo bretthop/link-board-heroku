@@ -1,11 +1,15 @@
 package linkboard.spring.data.entity;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-//@Entity
+@Entity
+@Table(name = "user_account")
 public class UserAccountEntity
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -15,8 +19,13 @@ public class UserAccountEntity
     @NotNull
     @Size(min = 1)
     private String password;
+
     private String email;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
 
     public Long getId()

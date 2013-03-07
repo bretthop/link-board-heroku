@@ -1,10 +1,20 @@
 package linkboard.spring.data.entity;
 
-//@Entity
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.*;
+
+@Entity
 public class LinkEntity
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "link_group_id")
     private LinkGroupEntity group;
+
     private String title;
     private String href;
     private String description;
