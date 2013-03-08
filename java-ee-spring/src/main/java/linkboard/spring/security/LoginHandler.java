@@ -1,7 +1,7 @@
 package linkboard.spring.security;
 
-import linkboard.spring.TemporaryUser;
 import linkboard.spring.data.entity.UserAccountEntity;
+import linkboard.spring.service.UserAccountService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
@@ -10,24 +10,32 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LoginHandler implements UserDetailsService
 {
+    @Resource
+    private UserAccountService userAccountService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException
     {
-        UserAccountEntity user = TemporaryUser.get();
+        User springUser = null;
 
-        User springUser = new User(
-                user.getUsername(),
-                user.getPassword(),
+        UserAccountEntity linkBoardUser = userAccountService.getByUsername(username);
+
+        if (linkBoardUser != null) {
+            springUser = new User(
+                linkBoardUser.getUsername(),
+                linkBoardUser.getPassword(),
                 true,
                 true,
                 true,
                 true,
-                this.getAuthorities(user));
+                this.getAuthorities(linkBoardUser));
+        }
 
         return springUser;
     }

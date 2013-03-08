@@ -26,6 +26,11 @@ public class UserAccountService
         return userAccountDao.save(user);
     }
 
+    public UserAccountEntity getByUsername(String username)
+    {
+        return userAccountDao.findByUsername(username);
+    }
+
     public UserAccountEntity getByUsernameAndPassword(String username, String password)
     {
         return userAccountDao.findByUsernameAndPassword(username, password);
