@@ -4,13 +4,18 @@ package linkboard.spring.data.entity;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "link_group")
+@NamedQueries({
+    @NamedQuery(name = "LinkGroupEntity.findAllForUser", query = "SELECT g FROM LinkGroupEntity g WHERE g.user.id = :userId"),
+    @NamedQuery(name = "LinkGroupEntity.findByIdAndUser", query = "SELECT g FROM LinkGroupEntity g WHERE g.id = :id AND g.user.id = :userId")
+})
 public class LinkGroupEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "user_account_id")
     private UserAccountEntity user;
 

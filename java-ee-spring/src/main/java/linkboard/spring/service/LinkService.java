@@ -3,11 +3,13 @@ package linkboard.spring.service;
 import linkboard.spring.data.dao.LinkDao;
 import linkboard.spring.data.entity.LinkEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
+@Transactional
 public class LinkService
 {
     @Resource
@@ -28,8 +30,12 @@ public class LinkService
         return linkDao.findAllForGroup(groupId);
     }
 
-    public void deleteLink(Long id)
+    public void deleteLink(long id)
     {
-        linkDao.delete(id);
+        LinkEntity link = linkDao.findById(id);
+
+        if (link != null) {
+            linkDao.delete(link);
+        }
     }
 }

@@ -1,17 +1,22 @@
 package linkboard.spring.data.entity;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
 
 @Entity
+@Table(name = "link")
+@NamedQueries({
+    @NamedQuery(name = "LinkEntity.findAll", query = "SELECT l FROM LinkEntity l"),
+    @NamedQuery(name = "LinkEntity.findById", query = "SELECT l FROM LinkEntity l WHERE l.id = :id"),
+    @NamedQuery(name = "LinkEntity.findAllByGroup", query = "SELECT l FROM LinkEntity l WHERE l.group.id = :groupId"),
+    @NamedQuery(name = "LinkEntity.findByIdAndUser", query = "SELECT l FROM LinkEntity l, LinkGroupEntity g WHERE l.id = :id AND l.group.id = g.id AND g.user.id = :userId")
+})
 public class LinkEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "link_group_id")
     private LinkGroupEntity group;
 

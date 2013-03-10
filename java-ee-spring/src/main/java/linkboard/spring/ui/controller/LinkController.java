@@ -55,4 +55,17 @@ public class LinkController extends BaseController
 
         return result;
     }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    public @ResponseBody void deleteInstance(@RequestParam("id") long id, Principal principal)
+    {
+        UserAccountEntity user = this.getUserFromPrincipal(principal);
+
+        if (userAccountService.hasAccessToLink(user, id)) {
+            linkService.deleteLink(id);
+        }
+        else {
+            throw new RestException(403);
+        }
+    }
 }
