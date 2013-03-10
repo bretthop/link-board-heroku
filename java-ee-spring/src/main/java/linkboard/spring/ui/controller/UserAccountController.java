@@ -1,6 +1,5 @@
 package linkboard.spring.ui.controller;
 
-import linkboard.spring.TemporaryUser;
 import linkboard.spring.data.entity.UserAccountEntity;
 import linkboard.spring.service.UserAccountService;
 import org.springframework.stereotype.Controller;
@@ -11,20 +10,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping(value = "/users")
-public class UserAccountController
+public class UserAccountController extends BaseController
 {
     @Resource
     UserAccountService userAccountService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody UserAccountEntity getCollection()
+    public @ResponseBody UserAccountEntity getCollection(Principal principal)
     {
-        UserAccountEntity user = TemporaryUser.get();
-
-        return user;
+        return this.getUserFromPrincipal(principal);
     }
 
     @RequestMapping(method = RequestMethod.POST)

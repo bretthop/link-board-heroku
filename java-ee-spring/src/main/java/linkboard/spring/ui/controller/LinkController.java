@@ -1,7 +1,6 @@
 package linkboard.spring.ui.controller;
 
 import linkboard.spring.RestException;
-import linkboard.spring.TemporaryUser;
 import linkboard.spring.data.entity.LinkEntity;
 import linkboard.spring.data.entity.UserAccountEntity;
 import linkboard.spring.service.LinkService;
@@ -11,11 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
 @RequestMapping(value = "/links")
-public class LinkController
+public class LinkController extends BaseController
 {
     @Resource
     LinkService linkService;
@@ -24,12 +24,11 @@ public class LinkController
     UserAccountService userAccountService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody List<LinkEntity> getCollection(@RequestParam("groupId") long groupId)
+    public @ResponseBody List<LinkEntity> getCollection(@RequestParam("groupId") long groupId, Principal principal)
     {
         List<LinkEntity> result;
 
-        // Dummy user for now
-        UserAccountEntity user = TemporaryUser.get();
+        UserAccountEntity user = this.getUserFromPrincipal(principal);
 
         if (userAccountService.hasAccessToGroup(user, groupId)) {
             result = linkService.getAllForGroup(groupId);
@@ -42,10 +41,10 @@ public class LinkController
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody LinkEntity postCollection(@Valid @RequestBody LinkEntity link)
+    public @ResponseBody LinkEntity postCollection(@Valid @RequestBody LinkEntity link, Principal principal)
     {
         LinkEntity result;
-        UserAccountEntity user = TemporaryUser.get();
+        UserAccountEntity user = this.getUserFromPrincipal(principal);
 
         if (userAccountService.hasAccessToGroup(user, link.getGroup())) {
             result = linkService.saveLink(link);

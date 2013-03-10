@@ -1,6 +1,5 @@
 package linkboard.spring.ui.controller;
 
-import linkboard.spring.TemporaryUser;
 import linkboard.spring.data.entity.LinkGroupEntity;
 import linkboard.spring.data.entity.UserAccountEntity;
 import linkboard.spring.service.LinkGroupService;
@@ -12,20 +11,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
 @RequestMapping(value = "/linkGroups")
-public class LinkGroupController
+public class LinkGroupController extends BaseController
 {
     @Resource
     LinkGroupService linkGroupService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody List<LinkGroupEntity> getCollection()
+    public @ResponseBody List<LinkGroupEntity> getCollection(Principal principal)
     {
         List<LinkGroupEntity> result;
-        UserAccountEntity user = TemporaryUser.get();
+        UserAccountEntity user = this.getUserFromPrincipal(principal);
 
         result = linkGroupService.getAllForUser(user);
 
@@ -33,10 +33,10 @@ public class LinkGroupController
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody LinkGroupEntity postCollection(@Valid @RequestBody LinkGroupEntity linkGroup)
+    public @ResponseBody LinkGroupEntity postCollection(@Valid @RequestBody LinkGroupEntity linkGroup, Principal principal)
     {
         LinkGroupEntity result;
-        UserAccountEntity user = TemporaryUser.get();
+        UserAccountEntity user = this.getUserFromPrincipal(principal);
 
         linkGroup.setUser(user);
 

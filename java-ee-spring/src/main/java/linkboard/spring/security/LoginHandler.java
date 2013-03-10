@@ -27,14 +27,7 @@ public class LoginHandler implements UserDetailsService
         UserAccountEntity linkBoardUser = userAccountService.getByUsername(username);
 
         if (linkBoardUser != null) {
-            springUser = new User(
-                linkBoardUser.getUsername(),
-                linkBoardUser.getPassword(),
-                true,
-                true,
-                true,
-                true,
-                this.getAuthorities(linkBoardUser));
+            springUser = SecurityUserWrapper.fromLinkBoardUser(linkBoardUser, this.getAuthorities(linkBoardUser));
         }
 
         return springUser;
