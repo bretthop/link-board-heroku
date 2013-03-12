@@ -1,5 +1,5 @@
 RubyRails::Application.routes.draw do
-  resources :users
+  resources :users, :path => '/api/users'
 
 
   # The priority is based upon order of creation:
