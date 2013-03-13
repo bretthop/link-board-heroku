@@ -4,21 +4,18 @@ class ApplicationController < ActionController::Base
   private
 
   def require_login
-    @_temp_username = 'temp'
-    @_temp_password = 'temp'
+    auth_token = request.headers['Authorization'].split('Basic ')[1]
+    auth_tokens_decoded = auth_token.unpack('m')[0].split(':')
 
-    @auth_token = request.headers['Authorization'].split('Basic ')[1]
-    @auth_tokens_decoded = @auth_token.unpack('m')[0].split(':')
+    username = auth_tokens_decoded[0]
+    password = auth_tokens_decoded[1]
 
-    @username = @auth_tokens_decoded[0]
-    @password = @auth_tokens_decoded[1]
+    @current_user = UserAccount.find_by_username username
 
-    unless @username == @_temp_username
-      unless @password == @_temp_password
-        response.status = 400
+    unless @current_user && password == @current_user.password
+      response.status = 400
 
-        render :text => 'Invalid login'
-      end
+      render :text => 'Invalid login'
     end
   end
 end

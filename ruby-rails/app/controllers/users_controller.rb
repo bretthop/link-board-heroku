@@ -2,26 +2,20 @@ class UsersController < ApplicationController
   skip_before_filter :require_login, :only => [:create]
 
   def index
-    @user = {
-        username: 'temp',
-        password: 'temp',
-        email: 'temp',
-        firstName: 'temp',
-        lastName: 'temp'
-    }
-
-    render :json => @user
+    render :json => @current_user
   end
 
   def create
-    @user = {
-        username: params[:username],
-        password: params[:password],
-        email: params[:email],
-        firstName: params[:firstName],
-        lastName: params[:lastName]
-    }
+    @new_user = UserAccount.new({
+        :username => params[:username],
+        :password => params[:password],
+        :email => params[:email],
+        :first_name => params[:firstName],
+        :last_name => params[:lastName]
+    })
 
-    render :json => @user
+    @new_user.save
+
+    render :json => @new_user
   end
 end
