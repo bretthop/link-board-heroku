@@ -1,6 +1,7 @@
 RubyRails::Application.routes.draw do
-  resources :users, :path => '/api/users'
 
+  resources :users,       :path => '/api/users'
+  resources :link_groups, :path => '/api/linkGroups'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
