@@ -11,10 +11,11 @@ implemented in several different languages and frameworks, and can be primarily 
 ### Backend
 
 - [x] Implement login in the plain-Java backend
-- [ ] Use Apache CXF for REST stuff in the plain-Java backend
-- [ ] Implement a Spring MVC backend
-- [ ] Implement a Rails backend
+- [x] Implement a Spring MVC backend
+- [x] Implement a Rails backend
 - [ ] Implement a Node backend
+- [ ] Implement a Python backend using the Flask framework
+- [ ] Implement a .Net backend
 
 ### Functionality
 
