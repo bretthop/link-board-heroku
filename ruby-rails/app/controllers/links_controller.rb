@@ -6,16 +6,23 @@ class LinksController < ApplicationController
   end
 
   def create
-    @new_link = Link.new({
+    new_link = Link.new({
          :link_group_id => params[:group][:id],
          :title => params[:title],
          :href => params[:href],
          :description => params[:description]
     })
 
-    @new_link.save
+    new_link.save
 
-    render :json => @new_link
-    #render :json => params
+    render :json => new_link
+  end
+
+  def destroy
+    link = Link.find params[:id]
+
+    link.delete
+
+    render :text => 'Link deleted successfully'
   end
 end

@@ -6,14 +6,14 @@ class LinkGroupsController < ApplicationController
   end
 
   def create
-    @new_group = LinkGroup.new({
+    new_group = LinkGroup.new({
         :user_account_id => @current_user.id,
         :title => params[:title],
         :description => params[:description]
     })
 
-    @new_group.save
+    new_group.save
 
-    render :json => @new_group
+    render :json => new_group
   end
 end

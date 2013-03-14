@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @new_user = UserAccount.new({
+    new_user = UserAccount.new({
         :username => params[:username],
         :password => params[:password],
         :email => params[:email],
@@ -14,8 +14,8 @@ class UsersController < ApplicationController
         :last_name => params[:lastName]
     })
 
-    @new_user.save
+    new_user.save
 
-    render :json => @new_user
+    render :json => new_user
   end
 end

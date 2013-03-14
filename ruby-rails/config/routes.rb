@@ -2,7 +2,12 @@ RubyRails::Application.routes.draw do
 
   resources :users,       :path => '/api/users'
   resources :link_groups, :path => '/api/linkGroups'
-  resources :links,       :path => '/api/links'
+  resources :links,       :path => '/api/links' do
+    # TODO: Once the frontend is fully RESTful then remove this (ie when DELETE /links?id=x is replaced with DELETE /links/x)
+    collection do
+      delete 'destroy'
+    end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
