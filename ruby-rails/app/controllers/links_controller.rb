@@ -1,28 +1,44 @@
 class LinksController < ApplicationController
   def index
-    links = Link.find_all_by_link_group_id params[:groupId]
+    links = Link.find_by_link_group_if_allowed @current_user.id, params[:groupId]
 
-    render :json => links
+    if links
+      render :json => links
+    else
+      response.status = 403
+
+      render :text => 'You do not have permission to access this group.'
+    end
   end
 
   def create
-    new_link = Link.new({
-         :link_group_id => params[:group][:id],
-         :title => params[:title],
-         :href => params[:href],
-         :description => params[:description]
-    })
+    attrs = {
+        :link_group_id => params[:group][:id],
+        :title => params[:title],
+        :href => params[:href],
+        :description => params[:description]
+    }
 
-    new_link.save
+    new_link = Link.create_if_allowed @current_user.id, attrs
 
-    render :json => new_link
+    if new_link
+      render :json => new_link
+    else
+      response.status = 403
+
+      render :text => 'You do not have permission to access this group.'
+    end
   end
 
   def destroy
-    link = Link.find params[:id]
+    result = Link.delete_if_allowed @current_user.id, params[:id]
 
-    link.delete
+    if result
+      render :text => 'Link deleted successfully'
+    else
+      response.status = 403
 
-    render :text => 'Link deleted successfully'
+      render :text => 'You do not have permission to access this group.'
+    end
   end
 end
