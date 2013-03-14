@@ -1,4 +1,6 @@
 class LinkGroupsController < ApplicationController
+  include LinkGroupsHelper
+
   def index
     groups = LinkGroup.find_all_by_user_account_id @current_user.id
 
@@ -11,9 +13,16 @@ class LinkGroupsController < ApplicationController
         :title => params[:title],
         :description => params[:description]
     }
+    validation_err = validate attrs
 
-    new_group = LinkGroup.create attrs
+    if validation_err
+      response.status = 400
 
-    render :json => new_group
+      render :text => validation_err
+    else
+      new_group = LinkGroup.create attrs
+
+      render :json => new_group
+    end
   end
 end

@@ -1,4 +1,6 @@
 class LinksController < ApplicationController
+  include LinksHelper
+
   def index
     links = Link.find_by_link_group_if_allowed @current_user.id, params[:groupId]
 
@@ -19,14 +21,22 @@ class LinksController < ApplicationController
         :description => params[:description]
     }
 
-    new_link = Link.create_if_allowed @current_user.id, attrs
+    validation_err = validate attrs
 
-    if new_link
-      render :json => new_link
+    if validation_err
+      response.status = 400
+
+      render :text => validation_err
     else
-      response.status = 403
+      new_link = Link.create_if_allowed @current_user.id, attrs
 
-      render :text => 'You do not have permission to access this group.'
+      if new_link
+        render :json => new_link
+      else
+        response.status = 403
+
+        render :text => 'You do not have permission to access this group.'
+      end
     end
   end
 

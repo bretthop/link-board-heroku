@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  include UsersHelper
+
   skip_before_filter :require_login, :only => [:create]
 
   def index
@@ -14,8 +16,16 @@ class UsersController < ApplicationController
         :last_name => params[:lastName]
     }
 
-    new_user = UserAccount.create attrs
+    validation_err = validate attrs
 
-    render :json => new_user
+    if validation_err
+      response.status = 400
+
+      render :text => validation_err
+    else
+      new_user = UserAccount.create attrs
+
+      render :json => new_user
+    end
   end
 end
