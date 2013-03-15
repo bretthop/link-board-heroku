@@ -1,0 +1,41 @@
+<div id="addLinkModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="addLinkLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+        <h3 id="addLinkLabel">Add Link</h3>
+    </div>
+    <div class="modal-body">
+        <form id="addLinkForm" class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="groupId">Group Id</label>
+                <div class="controls">
+                    <input type="text" name="groupId" id="groupId" placeholder="Group Id" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="title">Title</label>
+                <div class="controls">
+                    <input type="text" name="title" id="title" placeholder="Title" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="href">Href</label>
+                <div class="controls">
+                    <input type="text" name="href" id="href" placeholder="Href" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="description">Description</label>
+                <div class="controls">
+                    <input type="text" name="description" id="description" placeholder="Description" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button id="addLinkBtn" class="btn btn-primary">
+            <i class="icon-plus"></i>
+            Add
+        </button>
+    </div>
+</div>
