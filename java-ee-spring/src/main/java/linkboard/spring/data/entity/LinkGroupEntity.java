@@ -2,6 +2,8 @@ package linkboard.spring.data.entity;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "link_group")
@@ -15,11 +17,15 @@ public class LinkGroupEntity
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "user_account_id")
     private UserAccountEntity user;
 
+    @NotNull
+    @Size(min = 1)
     private String title;
+
     private String description;
 
     public Long getId()
