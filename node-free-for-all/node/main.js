@@ -2,9 +2,11 @@
 var webapp_root = 'C:\\Dev\\Projects\\Javascript\\HelloNode\\webapp';
 
 var connect = require('C:\\Users\\brett\\node_modules\\connect'),
-    UsersEndpoint = require('./endpoints/UsersEndpoint.js');
+    securityFilter = require('./filters/security-filter.js');
+    usersEndpoint = require('./endpoints/users-endpoint.js');
 
 connect()
-    .use('/api/users', UsersEndpoint.process)
+    .use('/api', securityFilter.process)
+    .use('/api/users', usersEndpoint.process)
     .use(connect.static(webapp_root))
     .listen(4444);
