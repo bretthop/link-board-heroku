@@ -1,18 +1,18 @@
+var userDao = require('../data/dao/user-account-dao.js');
+
 function process(req, res)
 {
     switch (req.method) {
         case 'GET':
-            console.log('Processing users get');
-
-            res.writeHead(200);
-            res.end();
+            res.end(JSON.stringify(req.current_user));
 
             break;
         case 'POST':
-            console.log('processing users post');
+            var new_user = req.body;
 
-            res.writeHead(200);
-            res.end();
+            userDao.save(new_user, function(result) {
+                res.end(JSON.stringify(new_user));
+            });
 
             break;
         default:
