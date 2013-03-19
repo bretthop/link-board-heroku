@@ -1,5 +1,19 @@
 var baseDao = require('./base-dao.js');
 
+module.exports.findById = function(id, callback)
+{
+    var qry = 'SELECT * FROM link WHERE id = $1';
+    var params = [id];
+
+    baseDao.executeQuery(qry, params, function(result) {
+        if (result) {
+            if (callback) {
+                callback(result.rows[0]);
+            }
+        }
+    });
+};
+
 module.exports.findAllByGroupId = function(groupId, callback)
 {
     var qry = 'SELECT * FROM link WHERE link_group_id = $1';

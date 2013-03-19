@@ -14,6 +14,20 @@ module.exports.findAllByUserId = function(userId, callback)
     });
 };
 
+module.exports.findByIdAndUserId = function(groupId, userId, callback)
+{
+    var qry = 'SELECT * FROM link_group WHERE id = $1 AND user_account_id = $2';
+    var params = [groupId, userId];
+
+    baseDao.executeQuery(qry, params, function(result) {
+        if (result) {
+            if (callback) {
+                callback(result.rows[0]);
+            }
+        }
+    });
+};
+
 module.exports.save = function(group, callback)
 {
     var qry = 'INSERT INTO link_group (user_account_id, title, description) VALUES ($1, $2, $3)';
