@@ -1,28 +1,20 @@
-var userDao = require('../data/dao/user-account-dao.js');
+var baseEndpoint = require('./base-endpoint.js'),
+    userDao = require('../data/dao/user-account-dao.js');
 
-function process(req, res)
+function methodGet(req, res)
 {
-    switch (req.method) {
-        case 'GET':
-            res.writeHead(200, { "Content-Type": 'application/json' });
-            res.end(JSON.stringify(req.current_user));
-
-            break;
-        case 'POST':
-            var new_user = req.body;
-
-            userDao.save(new_user, function(result) {
-                res.writeHead(200, { "Content-Type": 'application/json' });
-                res.end(JSON.stringify(new_user));
-            });
-
-            break;
-        default:
-            console.log('unsupported method for usersEndpoint');
-
-            res.writeHead(405);
-            res.end();
-    }
+    res.writeHead(200, { "Content-Type": 'application/json' });
+    res.end(JSON.stringify(req.current_user));
 }
 
-module.exports.process = process;
+function methodPost(req, res)
+{
+    var new_user = req.body;
+
+    userDao.save(new_user, function(result) {
+        res.writeHead(200, { "Content-Type": 'application/json' });
+        res.end(JSON.stringify(new_user));
+    });
+}
+
+module.exports.process = baseEndpoint.createEndpoint({ methodGet: methodGet, methodPost: methodPost });
