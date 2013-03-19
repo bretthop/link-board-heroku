@@ -4,6 +4,7 @@ function process(req, res)
 {
     switch (req.method) {
         case 'GET':
+            res.writeHead(200, { "Content-Type": 'application/json' });
             res.end(JSON.stringify(req.current_user));
 
             break;
@@ -11,6 +12,7 @@ function process(req, res)
             var new_user = req.body;
 
             userDao.save(new_user, function(result) {
+                res.writeHead(200, { "Content-Type": 'application/json' });
                 res.end(JSON.stringify(new_user));
             });
 

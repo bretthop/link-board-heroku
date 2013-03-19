@@ -1,18 +1,24 @@
+var linkGroupDao = require('../data/dao/link-group-dao.js');
+
 function process(req, res)
 {
     switch (req.method) {
         case 'GET':
-            console.log('Processing link groups get');
-
-            res.writeHead(200);
-            res.end();
+            linkGroupDao.findAllByUserId(req.current_user.id, function(linkGroups) {
+                res.writeHead(200, { "Content-Type": 'application/json' });
+                res.end(JSON.stringify(linkGroups));
+            });
 
             break;
         case 'POST':
-            console.log('processing link groups post');
+            var new_group = req.body;
 
-            res.writeHead(200);
-            res.end();
+            new_group.user_account_id = req.current_user.id;
+
+            linkGroupDao.save(new_group, function(result) {
+                res.writeHead(200, { "Content-Type": 'application/json' });
+                res.end(JSON.stringify(new_group));
+            });
 
             break;
         default:
