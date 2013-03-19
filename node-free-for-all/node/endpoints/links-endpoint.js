@@ -1,19 +1,29 @@
-var baseEndpoint = require('./base-endpoint.js');
+var baseEndpoint = require('./base-endpoint.js'),
+    linkDao = require('../data/dao/link-dao.js');
 
 function methodGet(req, res)
 {
-    console.log('Processing links get');
-
-    res.writeHead(200);
-    res.end();
+    linkDao.findAllByGroupId(req.query.groupId, function(links) {
+        res.writeHead(200, { "Content-Type": 'application/json' });
+        res.end(JSON.stringify(links));
+    });
 }
 
 function methodPost(req, res)
 {
-    console.log('processing links post');
+    var new_link = req.body;
 
-    res.writeHead(200);
-    res.end();
+    linkDao.save(new_link, function(result) {
+        res.writeHead(201, { "Content-Type": 'application/json' });
+        res.end(JSON.stringify(new_link));
+    });
 }
 
-module.exports.process = baseEndpoint.createEndpoint({ methodGet: methodGet, methodPost: methodPost });
+function methodDelete(req, res)
+{
+    linkDao.delete(req.query.id, function() {
+        res.end();
+    });
+}
+
+module.exports.process = baseEndpoint.createEndpoint({ methodGet: methodGet, methodPost: methodPost, methodDelete: methodDelete });

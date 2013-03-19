@@ -16,7 +16,7 @@ function methodPost(req, res)
     new_group.user_account_id = req.current_user.id;
 
     linkGroupDao.save(new_group, function(result) {
-        res.writeHead(200, { "Content-Type": 'application/json' });
+        res.writeHead(201, { "Content-Type": 'application/json' });
         res.end(JSON.stringify(new_group));
     });
 }
