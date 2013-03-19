@@ -1,41 +1,39 @@
 class Link < ActiveRecord::Base
   attr_accessible :link_group_id, :title, :href, :description
 
-  def self.create_if_allowed(user_id, attrs)
+  def self.create(user_id, attrs)
     model = Link.new attrs
 
-    group = LinkGroup.where :id => model.link_group_id, :user_account_id => user_id
-
-    if group.size() > 0
+    Link.do_access_check user_id, model.link_group_id do
       model.save
 
       return model
-    else
-      return nil
     end
   end
 
-  def self.find_by_link_group_if_allowed(user_id, group_id)
-    group = LinkGroup.where :id => group_id, :user_account_id => user_id
-
-    if group.size() > 0
+  def self.find_by_link_group(user_id, group_id)
+    Link.do_access_check user_id, group_id do
       return Link.find_all_by_link_group_id group_id
-    else
-      return nil
     end
   end
 
-  def self.delete_if_allowed(user_id, link_id)
+  def self.delete_link(user_id, link_id)
     link = Link.find link_id
 
-    group = LinkGroup.where :id => link.link_group_id, :user_account_id => user_id
-
-    if group.size() > 0
+    Link.do_access_check user_id, link.link_group_id do
       link.delete
 
       return true
+    end
+  end
+
+  def self.do_access_check(user_id, group_id)
+    group = LinkGroup.where :id => group_id, :user_account_id => user_id
+
+    if group.size() > 0
+      yield
     else
-      return false
+      return nil
     end
   end
 end
