@@ -1,6 +1,7 @@
 var baseEndpoint = require('./base-endpoint.js'),
     linkDao = require('../data/dao/link-dao.js'),
-    linkGroupDao = require('../data/dao/link-group-dao.js');
+    linkGroupDao = require('../data/dao/link-group-dao.js'),
+    linkValidator = require('../validators/link-validator.js');
 
 function methodGet(req, res)
 {
@@ -16,12 +17,16 @@ function methodPost(req, res)
 {
     var new_link = req.body;
 
-    doAccessCheck(res, new_link.group.id, req.current_user.id, function() {
-        linkDao.save(new_link, function(result) {
-            res.writeHead(201, { "Content-Type": 'application/json' });
-            res.end(JSON.stringify(new_link));
+    var valid = baseEndpoint.handleValidationResult(res, linkValidator.validate(new_link));
+
+    if (valid) {
+        doAccessCheck(res, new_link.group.id, req.current_user.id, function() {
+            linkDao.save(new_link, function(result) {
+                res.writeHead(201, { "Content-Type": 'application/json' });
+                res.end(JSON.stringify(new_link));
+            });
         });
-    });
+    }
 }
 
 function methodDelete(req, res)
