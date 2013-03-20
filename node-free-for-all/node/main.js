@@ -1,5 +1,5 @@
 // TODO: Make file paths relative
-var webapp_root = 'C:\\Dev\\Projects\\Javascript\\HelloNode\\webapp';
+var webapp_root = 'C:\\Dev\\Projects\\Java\\LinkBoard\\node-free-for-all\\webapp';
 
 var connect = require('C:\\Users\\brett\\node_modules\\connect'),
     securityFilter = require('./filters/security-filter.js'),

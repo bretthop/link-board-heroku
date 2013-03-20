@@ -1,4 +1,4 @@
-define(['jquery', 'app/tmpl', 'app/api-functions', 'bootstrap/js/bootstrap'], function($, tmpl, api) {
+define(['jquery', 'app/tmpl', 'app/api-functions', 'bootstrap/js/vendor/bootstrap'], function($, tmpl, api) {
     var frontend = {};
 
     frontend.registerHandlers = function()

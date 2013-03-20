@@ -1,6 +1,6 @@
 requirejs.config({
-    //By default load any module IDs from js/lib
-    baseUrl: 'res/js/lib',
+    //By default load any module IDs from js/vendor
+    baseUrl: 'res/js/vendor',
     //except, if the module ID starts with "app",
     //load it from the js/app directory. paths
     //config is relative to the baseUrl, and
@@ -16,7 +16,7 @@ requirejs.config({
         'underscore': {
             exports: '_'
         },
-        'bootstrap/js/bootstrap': {
+        'bootstrap/js/vendor/bootstrap': {
             deps: ['jquery']
         }
     },
@@ -30,10 +30,10 @@ requirejs.config({
 
 // Start the main app logic.
 //
-// Adding 'bootstrap/js/bootstrap' to the required modules list adds bootstrap's functionality to our context
+// Adding 'bootstrap/js/vendor/bootstrap' to the required modules list adds bootstrap's functionality to our context
 // (this means we can use method like $().modal() here)
 // (This is only left here as a reference)
-requirejs(['app/api-functions', 'app/frontend', 'bootstrap/js/bootstrap'],
+requirejs(['app/api-functions', 'app/frontend', 'bootstrap/js/vendor/bootstrap'],
     function (api, frontend) {
         frontend.registerHandlers();
 
