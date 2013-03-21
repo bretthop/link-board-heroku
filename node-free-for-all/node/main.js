@@ -1,7 +1,7 @@
 // TODO: Make file paths relative
-var webapp_root = 'C:\\Dev\\Projects\\Java\\LinkBoard\\node-free-for-all\\webapp';
+var webapp_root = __dirname + '\\..\\webapp';
 
-var connect = require('C:\\Users\\brett\\node_modules\\connect'),
+var connect = require('connect'),
     securityFilter = require('./filters/security-filter.js'),
     usersEndpoint = require('./endpoints/users-endpoint.js'),
     linkGroupsEndpoint = require('./endpoints/link-groups-endpoint.js'),

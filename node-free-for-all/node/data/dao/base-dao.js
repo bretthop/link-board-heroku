@@ -1,4 +1,4 @@
-var pg = require('C:\\Users\\brett\\node_modules\\pg');
+var pg = require('pg');
 
 module.exports.executeQuery = function(qry, params, callback)
 {
