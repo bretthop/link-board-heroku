@@ -1,5 +1,4 @@
 var baseDao = require('./base-dao.js');
-var userAccountMapper = require('../mapping/user-account-mapping.js');
 
 module.exports.findByUsernameAndPassword = function(username, password, callback)
 {
@@ -9,8 +8,7 @@ module.exports.findByUsernameAndPassword = function(username, password, callback
     baseDao.executeQuery(qry, params, function(result) {
         if (result) {
             if (callback) {
-                var bean = userAccountMapper.fromEntity(result.rows[0]);
-                callback(bean);
+                callback(result.rows[0]);
             }
         }
     });
