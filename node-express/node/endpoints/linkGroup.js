@@ -10,9 +10,13 @@ exports.init = function(path, app)
 
 function getMethod(req, res, next)
 {
-    var groups = LinkGroup.findByUser(req.user.id);
-
-    return JSON.stringify(groups);
+    res.format({
+        'application/json': function() {
+            LinkGroup.findByUser(req.user.id, function(result) {
+                res.send(result);
+            })
+        }
+    });
 }
 
 function postMethod(req, res, next)
