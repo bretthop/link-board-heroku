@@ -6,3 +6,10 @@ exports.findByUser = function(userId, callback)
         callback(result);
     });
 };
+
+exports.save = function(data, callback)
+{
+    linkGroupDao.save(data, function(result) {
+        callback(result);
+    });
+};

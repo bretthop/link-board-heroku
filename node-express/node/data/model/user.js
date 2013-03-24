@@ -16,3 +16,10 @@ exports.findByCredentials = function(username, password, callback)
         callback(bean);
     });
 };
+
+exports.save = function(data, callback)
+{
+    userDao.save(data, function(result) {
+        callback(result);
+    });
+};

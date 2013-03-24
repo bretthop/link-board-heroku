@@ -1,3 +1,5 @@
+var Link = require('../data/model/link.js');
+
 exports.init = function(path, app)
 {
     if (!path) { path = '/'; }
@@ -9,15 +11,33 @@ exports.init = function(path, app)
 
 function getMethod(req, res, next)
 {
-    res.end('[]');
+    res.format({
+        'application/json': function() {
+            Link.findByGroup(req.query.groupId, function(result) {
+                res.send(result);
+            });
+        }
+    });
 }
 
 function postMethod(req, res, next)
 {
-    res.end('{}');
+    res.format({
+        'application/json': function() {
+            Link.save(req.body, function(result) {
+                res.send(result);
+            });
+        }
+    });
 }
 
 function deleteMethod(req, res, next)
 {
-    res.end('links delete');
+    res.format({
+        'application/json': function() {
+            Link.delete(req.query.id, function(result) {
+                res.send(result);
+            });
+        }
+    });
 }

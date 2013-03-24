@@ -5,6 +5,7 @@ var userEndpoint = require('./endpoints/user.js'),
     linkEndpoint = require('./endpoints/link.js'),
     securityFilter = require('./endpoints/filters/security-filter.js');
 
+app.use(express.bodyParser());
 app.use('/api', securityFilter.process('/api/users', 'POST'));
 
 userEndpoint.init('/api/users', app);

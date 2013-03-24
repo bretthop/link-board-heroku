@@ -21,5 +21,13 @@ function getMethod(req, res, next)
 
 function postMethod(req, res, next)
 {
-    res.end('{}');
+    res.format({
+        'application/json': function() {
+            req.body.user_account_id = req.user.id;
+
+            LinkGroup.save(req.body, function(result) {
+                res.send(result);
+            });
+        }
+    });
 }
