@@ -1,5 +1,6 @@
 var baseEndpoint = require('./base.js'),
-    LinkGroup = require('../data/model/linkGroup.js');
+    LinkGroup = require('../data/model/linkGroup.js'),
+    linkGroupValidator = require('./validators/link-group-validator.js');
 
 function getMethod(req, res, next)
 {
@@ -14,15 +15,19 @@ function getMethod(req, res, next)
 
 function postMethod(req, res, next)
 {
-    res.format({
-        'application/json': function() {
-            req.body.user_account_id = req.user.id;
+    req.body.user_account_id = req.user.id;
 
-            LinkGroup.save(req.body, function(result) {
-                res.send(result);
-            });
-        }
-    });
+    var valid = linkGroupValidator.validate(res, req.body);
+
+    if (valid) {
+        res.format({
+            'application/json': function() {
+                LinkGroup.save(req.body, function(result) {
+                    res.send(201, result);
+                });
+            }
+        });
+    }
 }
 
 exports.create = baseEndpoint.createEndpoint({methodGet: getMethod, methodPost: postMethod });

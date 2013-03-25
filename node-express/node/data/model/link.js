@@ -1,5 +1,11 @@
 var linkDao = require('../dao/link-dao.js');
 
+exports.findById = function(id, callback) {
+    linkDao.findById(id, function(result) {
+        callback(result);
+    });
+};
+
 exports.findByGroup = function(groupId, callback)
 {
     linkDao.findAllByGroupId(groupId, function(result) {

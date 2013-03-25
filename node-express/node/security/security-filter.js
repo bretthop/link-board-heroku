@@ -1,4 +1,4 @@
-var User = require('../../data/model/user.js');
+var User = require('../data/model/user.js');
 
 function process(excludedUrl, excludedMethod)
 {

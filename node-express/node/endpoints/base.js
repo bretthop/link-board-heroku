@@ -41,15 +41,3 @@ module.exports.createEndpoint = function(methods)
         }
     }
 };
-
-module.exports.handleValidationResult = function(res, validation_err)
-{
-    if (validation_err) {
-        res.writeHead(400);
-        res.end(validation_err);
-
-        return false;
-    }
-
-    return true;
-};
