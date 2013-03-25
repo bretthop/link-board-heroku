@@ -1,12 +1,5 @@
-var LinkGroup = require('../data/model/linkGroup.js');
-
-exports.init = function(path, app)
-{
-    if (!path) { path = '/'; }
-
-    app.get (path, getMethod)
-       .post(path, postMethod);
-};
+var baseEndpoint = require('./base.js'),
+    LinkGroup = require('../data/model/linkGroup.js');
 
 function getMethod(req, res, next)
 {
@@ -31,3 +24,5 @@ function postMethod(req, res, next)
         }
     });
 }
+
+exports.create = baseEndpoint.createEndpoint({methodGet: getMethod, methodPost: postMethod });

@@ -1,13 +1,5 @@
-var Link = require('../data/model/link.js');
-
-exports.init = function(path, app)
-{
-    if (!path) { path = '/'; }
-
-    app.get   (path, getMethod)
-       .post  (path, postMethod)
-       .delete(path, deleteMethod);
-};
+var baseEndpoint = require('./base.js'),
+    Link = require('../data/model/link.js');
 
 function getMethod(req, res, next)
 {
@@ -41,3 +33,5 @@ function deleteMethod(req, res, next)
         }
     });
 }
+
+exports.create = baseEndpoint.createEndpoint({methodGet: getMethod, methodPost: postMethod, methodDelete: deleteMethod });

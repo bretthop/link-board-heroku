@@ -1,12 +1,5 @@
-var User = require('../data/model/user.js');
-
-exports.init = function(path, app)
-{
-    if (!path) { path = '/'; }
-
-    app.get (path, getMethod)
-       .post(path, postMethod);
-};
+var baseEndpoint = require('./base.js'),
+    User = require('../data/model/user.js');
 
 function getMethod(req, res, next)
 {
@@ -27,3 +20,5 @@ function postMethod(req, res, next)
         }
     });
 }
+
+exports.create = baseEndpoint.createEndpoint({methodGet: getMethod, methodPost: postMethod });
