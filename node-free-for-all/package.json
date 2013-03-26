@@ -4,7 +4,7 @@
     "version": "0.0.1",
     "private": true,
     "dependencies": {
-        "connect": "2.7.3",
+        "send": "0.1.0",
         "pg"     : "0.14.1"
     }
 }
