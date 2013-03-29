@@ -11,28 +11,45 @@ var http = require('http'),
     parseJson = require('./utils/parse-json.js');
 
 http.createServer(function(req, res) {
-    if (req.url.length >= '/api'.length && req.url.substr(0, '/api'.length) == '/api') {
+    if (isApiCall(req)) {
         parseJson.fromRequestBody(req, res, function() {
             urlUtils.parseParams(req, res, function() {
                 securityFilter.process('/api/users', 'POST', req, res, function() {
-                    switch (req.url.split('?')[0]) {
-                        case '/api/users':
-                            usersEndpoint.process(req, res);
-                            break;
-                        case '/api/links':
-                            linksEndpoint.process(req, res);
-                            break;
-                        case '/api/linkGroups':
-                            linkGroupsEndpoint.process(req, res);
-                            break;
-                    }
+                    handleApiCall(req, res);
                 });
             });
         });
     }
-    else { // Serve static files
-        send(req, url.parse(req.url).pathname)
-            .root(webapp_root)
-            .pipe(res);
+    else {
+        handleStatic(req, res);
     }
 }).listen(3000);
+
+function handleStatic(req, res)
+{
+    send(req, url.parse(req.url).pathname)
+        .root(webapp_root)
+        .pipe(res);
+}
+
+function isApiCall(req)
+{
+    var apiPrefix = '/api';
+
+    return req.url.length >= apiPrefix.length && req.url.substr(0, apiPrefix.length) == apiPrefix;
+}
+
+function handleApiCall(req, res)
+{
+    switch (req.url.split('?')[0]) {
+        case '/api/users':
+            usersEndpoint.process(req, res);
+            break;
+        case '/api/links':
+            linksEndpoint.process(req, res);
+            break;
+        case '/api/linkGroups':
+            linkGroupsEndpoint.process(req, res);
+            break;
+    }
+}
