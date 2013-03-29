@@ -1,13 +1,10 @@
 var url = require('url');
 
 
-module.exports.parseParams = function()
+module.exports.parseParams = function(req, res, next)
 {
-    return function(req, res, next)
-    {
-        var url_parts = url.parse(req.url, true);
-        req.query = url_parts.query;
+    var url_parts = url.parse(req.url, true);
+    req.query = url_parts.query;
 
-        next();
-    }
+    next();
 };

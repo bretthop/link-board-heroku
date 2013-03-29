@@ -13,8 +13,8 @@ var http = require('http'),
 http.createServer(function(req, res) {
     if (req.url.length >= '/api'.length && req.url.substr(0, '/api'.length) == '/api') {
         parseJson.fromRequestBody(req, res, function() {
-            urlUtils.parseParams()(req, res, function() {
-                securityFilter.process('/api/users', 'POST')(req, res, function() {
+            urlUtils.parseParams(req, res, function() {
+                securityFilter.process('/api/users', 'POST', req, res, function() {
                     switch (req.url.split('?')[0]) {
                         case '/api/users':
                             usersEndpoint.process(req, res);
