@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Link Board</title>
+    <link href="/res/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="all">
+</head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <span class="span4"></span>
+                <div class="span3">
+                    <h1>My Board</h1>
+                </div>
+            </div>
+            <div class="row">
+                <span class="span3"></span>
+                <span class="span3" style="padding-top: 12px;">
+                    <button id="showAddLinkBtn" class="btn btn-success" style="vertical-align: middle;">
+                        <i class="icon-plus"></i>
+                        New Link...
+                    </button>
+                </span>
+                <span class="span2" style="padding-top: 12px;">
+                    <button id="showAddLinkGroupBtn" class="btn btn-success" style="vertical-align: middle;">
+                        <i class="icon-plus"></i>
+                        New Group...
+                    </button>
+                </span>
+            </div>
+            <div class="row">
+                <span class="span1"></span>
+                <div id="linkGroups" class="span9">
+                </div>
+            </div>
+        </div>
+
+        <script data-main="res/js/app.js" src="res/js/vendor/require.js"></script>
+    </body>
+</html>
