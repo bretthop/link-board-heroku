@@ -40,12 +40,16 @@ This is a list of completed backends:
 
 ## TODO
 
+- Remove the front end code from this repository and load it via a a tool (maybe create one with Rust)
+
 ### Backend
 
 - Implement a Python backend using the Flask framework
 - Implement a Python backend using the Django framework
 - Implement a vanilla PHP backend
 - Implement a PHP backend using the Yii framework
+- Implement a GO backend
+- Implement a Rust backend
 - Implement a .Net backend
 
 ### Functionality
