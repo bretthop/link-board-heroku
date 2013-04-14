@@ -4,35 +4,17 @@ import (
 	"fmt"
 	"net/http"
 	"encoding/json"
+	"service"
 )
 
-// TODO: Move to model package
-type User struct {
-    Id          int
-    Username    string
-    Password    string
-    Email       string
-    FirstName   string
-    LastName    string
-}
-
 func usersHandler(w http.ResponseWriter, r *http.Request) {
-    u := User {
-        Id: 1,
-        Username: "temp",
-        Password: "temp",
-        Email: "temp",
-        FirstName: "temp",
-        LastName: "temp",
-    }
+    u := service.GetUser()
 
-    res, err := json.Marshal(u)
-
-    if err != nil {
+    if res, err := json.Marshal(u); err != nil {
         fmt.Println("ERROR: ", err)
+    } else {
+	    fmt.Fprintf(w, string(res))
     }
-
-	fmt.Fprintf(w, string(res))
 }
 
 func linksHandler(w http.ResponseWriter, r *http.Request) {
@@ -44,8 +26,11 @@ func linkGroupsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	webapp_root := "..\\webapp"
-	
+    // TODO: Find a better way to ref static files, atm this will only work if you run 'go install app' (it wont work if you run 'go build app')
+	webapp_root := "..\\src\\webapp"
+
+	fmt.Println(http.Dir(webapp_root))
+
 	http.HandleFunc("/api/users", usersHandler)
 	http.HandleFunc("/api/links", linksHandler)
 	http.HandleFunc("/api/linkGroups", linkGroupsHandler)
