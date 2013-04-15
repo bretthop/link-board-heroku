@@ -1,7 +1,7 @@
 package dao
 
 import (
-    "data/model"
+    "go/data/model"
 )
 
 func FindUser() model.User {

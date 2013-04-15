@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"encoding/json"
-	"service"
+	"go/service"
 )
 
 func usersHandler(w http.ResponseWriter, r *http.Request) {
