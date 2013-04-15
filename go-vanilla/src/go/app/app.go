@@ -1,39 +1,20 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
-	"encoding/json"
-	"go/service"
+	"go/handler"
 )
 
-func usersHandler(w http.ResponseWriter, r *http.Request) {
-    u := service.GetUser()
-
-    if res, err := json.Marshal(u); err != nil {
-        fmt.Println("ERROR: ", err)
-    } else {
-	    fmt.Fprintf(w, string(res))
-    }
-}
-
-func linksHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Links - TODO!")
-}
-
-func linkGroupsHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Link Groups - TODO!")
-}
-
 func main() {
-    // TODO: Find a better way to ref static files, atm this will only work if you run 'go install app' (it wont work if you run 'go build app')
+    // This rel path will ONLY work if this project is compiled via 'go install go/app'
+    // (so that app.exe ends up in bin\app.exe) AND only if you also cd into bin\ before you
+    // run app.exe
+    // TODO: Fix this rel path to take it from the exe's location (not the current working dir)
 	webapp_root := "..\\src\\webapp"
 
-	fmt.Println(http.Dir(webapp_root))
-
-	http.HandleFunc("/api/users", usersHandler)
-	http.HandleFunc("/api/links", linksHandler)
-	http.HandleFunc("/api/linkGroups", linkGroupsHandler)
+	http.HandleFunc("/api/users", handler.UsersHandler)
+	//http.HandleFunc("/api/links", linksHandler)
+	//http.HandleFunc("/api/linkGroups", linkGroupsHandler)
 	
 	http.Handle("/", http.FileServer(http.Dir(webapp_root)))
 	
