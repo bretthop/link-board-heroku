@@ -4,8 +4,8 @@ import (
     "go/data/model"
 )
 
-func FindUser() model.User {
-    return model.User {
+func FindUser(username, password string) *model.User {
+    user := model.User {
         Id: 1,
         Username: "temp",
         Password: "temp",
@@ -13,4 +13,10 @@ func FindUser() model.User {
         FirstName: "temp",
         LastName: "temp",
     }
+
+    if username == user.Username && password == user.Password {
+        return &user
+    }
+
+    return nil
 }

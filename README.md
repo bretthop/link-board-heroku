@@ -6,6 +6,9 @@ A simple application to help manage useful website links (basically a global boo
 The real goal of this project is to get familiar with Heroku. The idea is that the backend of this app will be
 implemented in several different languages and frameworks, and can be primarily used as a reference.
 
+_Update:_ The goal of this project has changed... it is now not focused on Heroku at all, instead focusing on the different
+backend technologies. Heroku intergration will be added eventually... but not any time soon.
+
 ## Project Structure
 Each backend must behave in the same manor (i.e. they must all implement the same REST endpoints, with the same responses and codes).
 This is achieved by first creating a standalone pure-HTML client that is used as-is across all backends. This ensures that the backend is
@@ -15,6 +18,17 @@ implementation, however this will hopefully change in the near future.
 Each backend exists in a dir in the root of this repository, with the database scripts also in the root (because 
 the DB tables will be the same across all backends). The reason that a separate repo wasn't created for each backend is because I wanted
 everything in one place as a reference.
+
+## Backend Definition
+This section describes the backend requirements. It is a simple list of URL mappings and a describtion of what is required at that URL.
+All authentication is done via the AUTHORIZATION header, using basic auth.
+
+* `/` - The backend must serve the static frontend files from the root URL, with no authentication,
+* `/api` - All REST calls will be made with this base URL. All requests to here _must_ be authenticated, with the exception of
+   a POST to `/api/users` (as this request is used to created a user),
+* `/api/users` - GET: Returns the user object specified by the authorisation header; POST: Creates a new user,
+* `/api/links` - TODO
+* `/api/linkGroups` - TODO
 
 ## Technologies Used
 Please refer to the README for each backend (located in the respective dir) for the specific technologies used for that backend. This list contains 

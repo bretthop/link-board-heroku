@@ -8,7 +8,7 @@ import (
 )
 
 func UsersHandler(w http.ResponseWriter, r *http.Request) {
-    u := service.GetUser()
+    u := service.GetUser("", "")
 
     if res, err := json.Marshal(u); err != nil {
         fmt.Println("ERROR: ", err)

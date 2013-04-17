@@ -5,6 +5,6 @@ import (
     "go/data/model"
 )
 
-func GetUser() model.User {
-    return dao.FindUser()
+func GetUser(username, password string) *model.User {
+    return dao.FindUser(username, password)
 }

@@ -2,7 +2,8 @@ package main
 
 import (
 	"net/http"
-	"go/handler"
+	"go/handler/security"
+	"go/handler/router"
 )
 
 func main() {
@@ -12,10 +13,7 @@ func main() {
     // TODO: Fix this rel path to take it from the exe's location (not the current working dir)
 	webapp_root := "..\\src\\webapp"
 
-	http.HandleFunc("/api/users", handler.UsersHandler)
-	//http.HandleFunc("/api/links", linksHandler)
-	//http.HandleFunc("/api/linkGroups", linkGroupsHandler)
-	
+	http.HandleFunc("/api/", security.Authenticate(router.ApiRouter, "", ""))
 	http.Handle("/", http.FileServer(http.Dir(webapp_root)))
 	
 	http.ListenAndServe(":8080", nil)
