@@ -3,7 +3,6 @@ package router
 import (
     "net/http"
     "go/handler"
-    "fmt"
 )
 
 func ApiRouter(w http.ResponseWriter, r *http.Request) {
@@ -11,6 +10,6 @@ func ApiRouter(w http.ResponseWriter, r *http.Request) {
         case "/api/users":
             handler.UsersHandler(w, r)
         default:
-            // TODO: Return 404
+            w.WriteHeader(http.StatusNotFound)
     }
 }

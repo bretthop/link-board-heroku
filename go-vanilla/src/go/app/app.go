@@ -7,10 +7,7 @@ import (
 )
 
 func main() {
-    // This rel path will ONLY work if this project is compiled via 'go install go/app'
-    // (so that app.exe ends up in bin\app.exe) AND only if you also cd into bin\ before you
-    // run app.exe
-    // TODO: Fix this rel path to take it from the exe's location (not the current working dir)
+    // TODO: Find a better way of doing this (this will only work if you are in \bin when you run app.exe)
 	webapp_root := "..\\src\\webapp"
 
 	http.HandleFunc("/api/", security.Authenticate(router.ApiRouter, "", ""))

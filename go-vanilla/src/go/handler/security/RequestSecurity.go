@@ -1,7 +1,6 @@
 package security
 
 import (
-    "fmt"
     "net/http"
     "encoding/base64"
     "strings"
@@ -23,7 +22,7 @@ func Authenticate(router http.HandlerFunc, excludedPath string, excludedMethod s
         if user := service.GetUser(username, password); user != nil {
             router(w, r)
         } else {
-            // TODO: Return 401
+            w.WriteHeader(http.StatusUnauthorized)
         }
     }
 }
