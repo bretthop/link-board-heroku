@@ -13,3 +13,6 @@ to run the app from the *\bin\app.exe* runnable.
 _Note:_ This application uses a top-level package of *Go*, this is _not_ recommended because it
 clashes with a top-level package in Go's standard lib. However, its going to stay like this until
 I choose another name.
+
+## TODO
+* Return groups as an array
