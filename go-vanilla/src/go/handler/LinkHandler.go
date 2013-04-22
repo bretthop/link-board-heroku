@@ -18,6 +18,12 @@ func LinkHandler(w http.ResponseWriter, r *http.Request) {
                 w.Header().Add("Content-type", "application/json")
                 fmt.Fprintf(w, string(res))
             }
+        case "POST":
+            service.SaveLink()
+            w.WriteHeader(http.StatusOK)
+        case "DELETE":
+            service.DeleteLink()
+            w.WriteHeader(http.StatusOK)
         default:
             w.WriteHeader(http.StatusMethodNotAllowed)
     }

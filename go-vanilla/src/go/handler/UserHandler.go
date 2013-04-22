@@ -17,6 +17,9 @@ func UserHandler(w http.ResponseWriter, r *http.Request) {
             } else {
         	    fmt.Fprintf(w, string(res))
             }
+        case "POST":
+            service.SaveUser()
+            w.WriteHeader(http.StatusOK)
         default:
             w.WriteHeader(http.StatusMethodNotAllowed)
     }

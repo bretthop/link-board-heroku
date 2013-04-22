@@ -8,3 +8,7 @@ import (
 func GetUser(username, password string) *model.User {
     return dao.FindUser(username, password)
 }
+
+func SaveUser() {
+    dao.SaveUser()
+}

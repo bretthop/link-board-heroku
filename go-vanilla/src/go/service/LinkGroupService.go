@@ -8,3 +8,7 @@ import (
 func GetLinkGroups() *[]model.LinkGroup {
     return dao.FindLinkGroups()
 }
+
+func SaveLinkGroup() {
+
+}

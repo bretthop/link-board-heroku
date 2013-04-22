@@ -18,6 +18,9 @@ func LinkGroupHandler(w http.ResponseWriter, r *http.Request) {
                 w.Header().Add("Content-type", "application/json")
                 fmt.Fprintf(w, string(res))
             }
+        case "POST":
+            service.SaveLinkGroup()
+            w.WriteHeader(http.StatusOK)
         default:
             w.WriteHeader(http.StatusMethodNotAllowed)
     }

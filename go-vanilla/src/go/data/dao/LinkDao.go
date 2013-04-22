@@ -19,3 +19,11 @@ func FindLinks() *[]model.Link {
 
     return &links
 }
+
+func SaveLink() {
+
+}
+
+func DeleteLink() {
+
+}

@@ -20,3 +20,7 @@ func FindUser(username, password string) *model.User {
 
     return nil
 }
+
+func SaveUser() {
+
+}

@@ -25,6 +25,10 @@ func FindLinkGroups() *[]model.LinkGroup {
     return &groups
 }
 
+func SaveLinkGroup() {
+
+}
+
 
 func FindLinkGroup() *model.LinkGroup {
     user := FindUser("temp", "temp")
