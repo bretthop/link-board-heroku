@@ -5,6 +5,6 @@ import (
     "go/data/model"
 )
 
-func GetLink() *model.Link {
-    return dao.FindLink()
+func GetLinks() *[]model.Link {
+    return dao.FindLinks()
 }

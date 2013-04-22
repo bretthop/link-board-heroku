@@ -5,6 +5,6 @@ import (
     "go/data/model"
 )
 
-func GetLinkGroup() *model.LinkGroup {
-    return dao.FindLinkGroup()
+func GetLinkGroups() *[]model.LinkGroup {
+    return dao.FindLinkGroups()
 }
