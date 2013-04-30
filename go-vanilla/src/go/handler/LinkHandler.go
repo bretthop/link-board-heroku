@@ -5,6 +5,7 @@ import (
     "net/http"
     "encoding/json"
     "go/service"
+    "go/data/model"
 )
 
 func LinkHandler(w http.ResponseWriter, r *http.Request) {
@@ -19,7 +20,14 @@ func LinkHandler(w http.ResponseWriter, r *http.Request) {
                 fmt.Fprintf(w, string(res))
             }
         case "POST":
-            service.SaveLink()
+            var link model.Link
+
+            // TOFIX: json decoder does not decode "group:{id:1}" into group sub model
+            decoder := json.NewDecoder(r.Body)
+            decoder.Decode(&link)
+
+            service.SaveLink(&link)
+
             w.WriteHeader(http.StatusOK)
         case "DELETE":
             service.DeleteLink()

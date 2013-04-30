@@ -9,7 +9,7 @@ func GetLinks() *[]model.Link {
     return dao.FindLinks()
 }
 
-func SaveLink() {
+func SaveLink(link *model.Link) {
     dao.SaveLink()
 }
 
