@@ -22,7 +22,6 @@ func LinkHandler(w http.ResponseWriter, r *http.Request) {
         case "POST":
             var link model.Link
 
-            // TOFIX: json decoder does not decode "group:{id:1}" into group sub model
             decoder := json.NewDecoder(r.Body)
             decoder.Decode(&link)
 
