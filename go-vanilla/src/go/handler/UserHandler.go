@@ -5,6 +5,7 @@ import (
     "net/http"
     "encoding/json"
     "go/service"
+    "go/data/model"
 )
 
 func UserHandler(w http.ResponseWriter, r *http.Request) {
@@ -18,7 +19,12 @@ func UserHandler(w http.ResponseWriter, r *http.Request) {
         	    fmt.Fprintf(w, string(res))
             }
         case "POST":
-            service.SaveUser()
+            var user model.User
+
+            decoder := json.NewDecoder(r.Body)
+            decoder.Decode(&user)
+
+            service.SaveUser(&user)
             w.WriteHeader(http.StatusOK)
         default:
             w.WriteHeader(http.StatusMethodNotAllowed)

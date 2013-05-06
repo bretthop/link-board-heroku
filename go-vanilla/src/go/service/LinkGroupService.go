@@ -9,6 +9,6 @@ func GetLinkGroups() *[]model.LinkGroup {
     return dao.FindLinkGroups()
 }
 
-func SaveLinkGroup() {
-
+func SaveLinkGroup(group *model.LinkGroup) {
+    dao.SaveLinkGroup()
 }

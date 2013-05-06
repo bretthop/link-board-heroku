@@ -5,6 +5,7 @@ import (
     "net/http"
     "encoding/json"
     "go/service"
+    "go/data/model"
 )
 
 func LinkGroupHandler(w http.ResponseWriter, r *http.Request) {
@@ -19,7 +20,12 @@ func LinkGroupHandler(w http.ResponseWriter, r *http.Request) {
                 fmt.Fprintf(w, string(res))
             }
         case "POST":
-            service.SaveLinkGroup()
+            var group model.LinkGroup
+
+            decoder := json.NewDecoder(r.Body)
+            decoder.Decode(&group)
+
+            service.SaveLinkGroup(&group)
             w.WriteHeader(http.StatusOK)
         default:
             w.WriteHeader(http.StatusMethodNotAllowed)

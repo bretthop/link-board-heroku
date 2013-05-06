@@ -9,6 +9,6 @@ func GetUser(username, password string) *model.User {
     return dao.FindUser(username, password)
 }
 
-func SaveUser() {
+func SaveUser(user *model.User) {
     dao.SaveUser()
 }
