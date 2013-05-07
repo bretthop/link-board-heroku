@@ -8,12 +8,10 @@ import (
     "go/data/model"
 )
 
-func UserHandler(w http.ResponseWriter, r *http.Request) {
+func UserHandler(w http.ResponseWriter, r *UserRequest) {
     switch r.Method {
         case "GET":
-            u := service.GetUser("", "")
-
-            if res, err := json.Marshal(u); err != nil {
+            if res, err := json.Marshal(r.User); err != nil {
                 fmt.Println("ERROR: ", err)
             } else {
         	    fmt.Fprintf(w, string(res))

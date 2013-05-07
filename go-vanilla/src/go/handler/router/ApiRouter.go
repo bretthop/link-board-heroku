@@ -5,7 +5,7 @@ import (
     "go/handler"
 )
 
-func ApiRouter(w http.ResponseWriter, r *http.Request) {
+func ApiRouter(w http.ResponseWriter, r *handler.UserRequest) {
     switch (r.URL.Path) {
         case "/api/users":
             handler.UserHandler(w, r)

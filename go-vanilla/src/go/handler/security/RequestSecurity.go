@@ -5,12 +5,12 @@ import (
     "encoding/base64"
     "strings"
     "go/service"
-    "fmt"
+    "go/handler"
 )
 
-func Authenticate(router http.HandlerFunc, excludedPath string, excludedMethod string) http.HandlerFunc {
+func Authenticate(router handler.RouterFunc, excludedPath string, excludedMethod string) http.HandlerFunc {
     return func (w http.ResponseWriter, r *http.Request) {
-        if r.URL.Path != excludedPath && r.Method != excludedMethod {
+        if r.URL.Path != excludedPath || r.Method != excludedMethod {
             // Note: ATM this function assumes the request has a Authorization header, and its type is basic
             authHeader64 := r.Header.Get("Authorization")
 
@@ -22,12 +22,12 @@ func Authenticate(router http.HandlerFunc, excludedPath string, excludedMethod s
             password := strings.Split(string(authToken), ":")[1]
 
             if user := service.GetUser(username, password); user != nil {
-                router(w, r)
+                router(w, &handler.UserRequest{*r, user})
             } else {
                 w.WriteHeader(http.StatusUnauthorized)
             }
         } else {
-            router(w, r)
+            router(w, &handler.UserRequest{*r, nil})
         }
     }
 }

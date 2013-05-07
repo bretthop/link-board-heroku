@@ -5,18 +5,16 @@ import (
 )
 
 func FindLinkGroups() *[]model.LinkGroup {
-    user := FindUser("temp", "temp")
-
     groups := []model.LinkGroup {
         model.LinkGroup {
             Id: 1,
-            User: user,
+            User: nil,
             Title: "temp",
             Description: "temp",
         },
         model.LinkGroup {
             Id: 2,
-            User: user,
+            User: nil,
             Title: "temp2",
             Description: "temp2",
         },
@@ -29,13 +27,10 @@ func SaveLinkGroup() {
 
 }
 
-
 func FindLinkGroup() *model.LinkGroup {
-    user := FindUser("temp", "temp")
-
     group := model.LinkGroup {
         Id: 1,
-        User: user,
+        User: nil,
         Title: "temp",
         Description: "temp",
     }

@@ -8,7 +8,7 @@ import (
     "go/data/model"
 )
 
-func LinkGroupHandler(w http.ResponseWriter, r *http.Request) {
+func LinkGroupHandler(w http.ResponseWriter, r *UserRequest) {
     switch r.Method {
         case "GET":
             lg := service.GetLinkGroups()

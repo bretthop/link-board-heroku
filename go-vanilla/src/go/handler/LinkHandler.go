@@ -8,7 +8,7 @@ import (
     "go/data/model"
 )
 
-func LinkHandler(w http.ResponseWriter, r *http.Request) {
+func LinkHandler(w http.ResponseWriter, r *UserRequest) {
     switch r.Method {
         case "GET":
             l := service.GetLinks()

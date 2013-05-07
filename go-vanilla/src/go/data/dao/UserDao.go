@@ -5,20 +5,18 @@ import (
 )
 
 func FindUser(username, password string) *model.User {
-    user := model.User {
-        Id: 1,
-        Username: "temp",
-        Password: "temp",
-        Email: "temp",
-        FirstName: "temp",
-        LastName: "temp",
-    }
+    var user model.User
 
-    if username == user.Username && password == user.Password {
-        return &user
-    }
+    db := GetConn()
+    defer db.Close()
 
-    return nil
+    row := db.QueryRow("SELECT * FROM user_account WHERE username = $1::text AND password = $2::text", username, password)
+    row.Scan(&user.Id, &user.Username, &user.Password, &user.Email, &user.FirstName, &user.LastName)
+
+    if user.Id == 0 {
+        return nil
+    }
+    return &user
 }
 
 func SaveUser() {

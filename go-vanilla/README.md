@@ -2,10 +2,11 @@
 
 Quick and dirty instructions:
 
-1) Open a cmd or shell in the root of this repo, then run:
-`go install go\app`
-2) Then run:
-`\bin.app.exe`
+Open a command prompt in the root of this rep, then run:
+1) `go get all` - this imports all external lib code (namely the postgres driver) into our project (this only has to be done once)
+2) `go install go\app` - this builds our project
+3) `cd bin` - change dir to bin (where the final exe is built)
+4) `app.exe` - run the app
 
 This will install the app (and its dependencies) into the \bin and \pkg folders, and allow you
 to run the app from the *\bin\app.exe* runnable.
