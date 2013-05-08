@@ -6,9 +6,9 @@ import (
 )
 
 func GetUser(username, password string) *model.User {
-    return dao.FindUser(username, password)
+    return dao.FindByUsernameAndPassword(username, password)
 }
 
-func SaveUser(user *model.User) {
-    dao.SaveUser()
+func SaveUser(user *model.User) *model.User {
+    return dao.SaveUser(user)
 }

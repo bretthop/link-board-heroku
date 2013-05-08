@@ -2,9 +2,10 @@ package dao
 
 import (
     "go/data/model"
+    "go/util"
 )
 
-func FindUser(username, password string) *model.User {
+func FindByUsernameAndPassword(username, password string) *model.User {
     var user model.User
 
     db := GetConn()
@@ -19,6 +20,14 @@ func FindUser(username, password string) *model.User {
     return &user
 }
 
-func SaveUser() {
+func SaveUser(user *model.User) *model.User {
+    db := GetConn()
+    defer db.Close()
 
+    res, err_1 := db.Exec("INSERT INTO user_account (username, password, email, first_name, last_name) VALUES ($1::text, $2::text, $3::text, $4::text, $5::text)", user.Username, user.Password, user.Email, user.FirstName, user.LastName)
+    user.Id, _ = res.LastInsertId() // TODO: Investigate the error that LastInsertId() throws
+
+    util.HandleErrors(err_1)
+
+    return user
 }
