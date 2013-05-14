@@ -6,6 +6,7 @@ import (
     "go/service"
     "go/data/model"
     "go/util"
+    "go/handler/validator"
 )
 
 func UserHandler(w http.ResponseWriter, r *UserRequest) {
@@ -18,10 +19,14 @@ func UserHandler(w http.ResponseWriter, r *UserRequest) {
             decoder := json.NewDecoder(r.Body)
             decoder.Decode(&user)
 
-            user = *service.SaveUser(&user)
+            valErr := validator.ValidateUser(&user)
 
-            w.WriteHeader(http.StatusCreated)
-            util.MarshalToResponseWriter(user, w)
+            if !util.HandleBadRequest(valErr, w) {
+                user = *service.SaveUser(&user)
+
+                w.WriteHeader(http.StatusCreated)
+                util.MarshalToResponseWriter(user, w)
+            }
         default:
             w.WriteHeader(http.StatusMethodNotAllowed)
     }

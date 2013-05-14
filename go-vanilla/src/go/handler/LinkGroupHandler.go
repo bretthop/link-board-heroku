@@ -11,9 +11,9 @@ import (
 func LinkGroupHandler(w http.ResponseWriter, r *UserRequest) {
     switch r.Method {
         case "GET":
-            lg := service.GetLinkGroupsForUser(r.User)
+            groups := service.GetLinkGroupsForUser(r.User)
 
-            util.MarshalToResponseWriter(lg, w)
+            util.MarshalToResponseWriter(groups, w)
         case "POST":
             var group model.LinkGroup
 
