@@ -55,6 +55,8 @@ This is a list of completed backends:
 ## TODO
 
 - Remove the front end code from this repository and load it via a a tool (maybe create one with Rust)
+- Add valdiation when creating a user so that the same username can't be used twice
+- Replace query params with url parms (i.e. DELETE /api/links?id=1 => DELETE /api/links/1)
 
 ### Backend
 
