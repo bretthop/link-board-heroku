@@ -1,23 +1,24 @@
 package handler
 
 import (
-    "fmt"
     "net/http"
     "encoding/json"
     "go/service"
     "go/data/model"
+    "go/util"
 )
 
 func LinkHandler(w http.ResponseWriter, r *UserRequest) {
     switch r.Method {
         case "GET":
-            l := service.GetLinks()
+            groupId := util.ParseInt64FromQuery(r.URL, "groupId")
 
-            if res, err := json.Marshal(l); err != nil {
-                fmt.Println("ERROR: ", err)
+            if service.HasAccessToGroup(r.User, groupId) {
+                links := service.GetLinksForGroup(groupId)
+
+                util.MarshalToResponseWriter(links, w)
             } else {
-                w.Header().Add("Content-type", "application/json")
-                fmt.Fprintf(w, string(res))
+                w.WriteHeader(http.StatusForbidden)
             }
         case "POST":
             var link model.Link
@@ -29,7 +30,9 @@ func LinkHandler(w http.ResponseWriter, r *UserRequest) {
 
             w.WriteHeader(http.StatusOK)
         case "DELETE":
-            service.DeleteLink()
+            linkId := util.ParseInt64FromQuery(r.URL, "id")
+
+            service.DeleteLink(linkId)
             w.WriteHeader(http.StatusOK)
         default:
             w.WriteHeader(http.StatusMethodNotAllowed)

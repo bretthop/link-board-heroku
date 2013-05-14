@@ -12,3 +12,7 @@ func GetUser(username, password string) *model.User {
 func SaveUser(user *model.User) *model.User {
     return dao.SaveUser(user)
 }
+
+func HasAccessToGroup(user *model.User, groupId int64) bool {
+    return dao.HasAccessToGroup(user.Id, groupId)
+}

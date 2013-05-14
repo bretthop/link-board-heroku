@@ -5,10 +5,10 @@ import (
     "go/data/model"
 )
 
-func GetLinkGroups() *[]model.LinkGroup {
-    return dao.FindLinkGroups()
+func GetLinkGroupsForUser(user *model.User) *[]model.LinkGroup {
+    return dao.FindLinkGroupsForUser(user)
 }
 
-func SaveLinkGroup(group *model.LinkGroup) {
-    dao.SaveLinkGroup()
+func SaveLinkGroup(group *model.LinkGroup) *model.LinkGroup {
+    return dao.SaveLinkGroup(group)
 }
